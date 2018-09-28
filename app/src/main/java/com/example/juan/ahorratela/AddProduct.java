@@ -10,6 +10,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.juan.ahorratela.Controller.ProductoDbHelper;
+import com.example.juan.ahorratela.Model.Product;
+
 public class AddProduct extends AppCompatActivity {
 
 
@@ -20,6 +23,8 @@ public class AddProduct extends AppCompatActivity {
     private ArrayAdapter<CharSequence> unidadMedidaAdapter;
     private Button save;
     private Context context;
+    private ProductoDbHelper productoDbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,23 +32,59 @@ public class AddProduct extends AppCompatActivity {
         setupComponents();
 
     }
-    private void setupComponents(){
-        context=this;
+
+    private void setupComponents() {
+        context = this;
         txtNombre = setEditText(R.id.nombre_producto_field);
-        txtMedida= setEditText(R.id.medida_field);
-        txtPrecio=setEditText(R.id.precio_producto_field);
+        txtMedida = setEditText(R.id.medida_field);
+        txtPrecio = setEditText(R.id.precio_producto_field);
         inicializateSpinner();
+        productoDbHelper = new ProductoDbHelper(context, "product.db", null, 1);
         save = (Button) findViewById(R.id.save_add_product_btn);
         save.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                
+                Toast toast;
+                Product product = null;
+                try {
+                    product = new Product(readString(txtNombre).toString(),
+                            Integer.parseInt(readString(txtPrecio).toString()),
+                            Integer.parseInt(readString(txtMedida).toString()),
+                            unidadDeMedida.getSelectedItemPosition());
+                    if (productoDbHelper.saveProduct(product) == -1)
+                        Toast.makeText(context, "Error al guardar", Toast.LENGTH_SHORT).show();
+
+                    else {
+                        Toast.makeText(context, "Exito al guardar", Toast.LENGTH_SHORT).show();
+                        limpiarTxt(txtNombre);
+                        limpiarTxt(txtMedida);
+                        limpiarTxt(txtPrecio);
+                    }
+                } catch (Exception e) {
+                    toast = Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG);
+                    toast.show();
+                }
+
+
             }
         });
 
     }
 
+    private void limpiarTxt(EditText txt) {
+        txt.setText("");
+    }
+
+    private Object readString(EditText text) throws Exception {
+        Object texto = text.getText();
+
+        if (text.getText().toString().length() == 0) {
+            text.requestFocus();
+            throw new Exception("campo no puede estar vacío");
+        }
+        return texto;
+    }
 
 
     private EditText setEditText(int id) {
