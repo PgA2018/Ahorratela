@@ -3,4 +3,13 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <!--formulario producto-->
+    <string name="hint_nombre_producto">Ingrese el producto...</string>
+    <string name="lbl_nommbre_producto">Nombre</string>
+    <string name="hint_precio_producto">Ingrese el precio...</string>
+    <string name="lbl_precio_producto">Precio</string>
+    <string name="hint_unidad_medida_producto">Ingrese la unidad de medida...</string>
+    <string name="lbl_medida_producto">Medida</string>
+    <string name="lbl_unidad_medida_producto">Unidad de medida</string>
+    <string name="btn_guardar_formulario">Guardar</string>
 </resources>
