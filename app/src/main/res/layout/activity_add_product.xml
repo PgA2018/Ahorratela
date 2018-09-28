@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,8 +10,11 @@
     android:layout_marginRight="@dimen/left_right_margin_layout"
     android:layout_marginBottom="@dimen/top_margin_layout"
     tools:context="com.example.juan.ahorratela.AddProduct"
+    >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
-
     <TextView
         android:id="@+id/lbl_nombre_producto"
         android:layout_width="match_parent"
@@ -60,9 +64,19 @@
         android:text="@string/lbl_unidad_medida_producto"
         android:gravity="center"/>
     <Spinner
-        android:id="@+id/unidad_medida_field"
+        android:id="@+id/unidad_medida_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/left_margin_lbl_form"
         android:layout_marginRight="@dimen/left_margin_lbl_form"></Spinner>
 </LinearLayout>
+    <Button
+        android:id="@+id/save_add_product_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:text="@string/btn_guardar_formulario"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
+</RelativeLayout>
+
