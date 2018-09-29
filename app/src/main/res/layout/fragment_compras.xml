@@ -2,108 +2,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.juan.ahorratela.Compras">
+    tools:context="com.example.juan.ahorratela.Fragments.ComprasFragment">
 
-    <LinearLayout
+
+
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:id="@+id/Producto_list"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp">
+    </android.support.v7.widget.RecyclerView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:text="@string/txtNombre_Producto" />
-
-            <ExpandableListView
-                android:id="@+id/txt_Nproducto"
-                android:layout_width="@dimen/caja_margin"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_vertical_margin"
-                android:hint="@string/hinNombre_Producto"
-                android:inputType="text"
-                android:privateImeOptions="actionGo" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="65dp"
-                android:layout_height="wrap_content"
-                android:text="@string/txtUbicacion_lugar" />
-
-            <ExpandableListView
-                android:id="@+id/txt_pUbicacion"
-                android:layout_width="@dimen/caja_margin"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_vertical_margin"
-                android:hint="@string/hinUbicacion_lugar"
-                android:inputType="text"
-                android:privateImeOptions="actionGo" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:text="@string/txtValor_Producto" />
-
-            <ExpandableListView
-                android:id="@+id/text_name"
-                android:layout_width="@dimen/caja_margin"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_vertical_margin"
-                android:hint="@string/hinValor_Producto"
-                android:inputType="text"
-                android:privateImeOptions="actionGo" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark" />
-
-        </LinearLayout>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btn_AgregarProducto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/icn_add"/>
-
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:id="@+id/Producto_list"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp">
-        </android.support.v7.widget.RecyclerView>
-
-    <LinearLayout
+    <!--LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
@@ -124,8 +34,15 @@
             android:text="Cancelar"
             android:id="@+id/btn_cancelarP" />
 
-    </LinearLayout>
+    </LinearLayout-->
 
-    </LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/addProductoCompra"
+        android:src="@drawable/ic_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="200px"/>
+
 
 </FrameLayout>

@@ -1,27 +1,35 @@
-package com.example.juan.ahorratela;
+package com.example.juan.ahorratela.Fragments;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
-import java.util.List;
+import com.example.juan.ahorratela.R;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Compras.OnFragmentInteractionListener} interface
+ * {@link ComprasFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Compras#newInstance} factory method to
+ * Use the {@link ComprasFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Compras extends Fragment {
+public class ComprasFragment extends Fragment {
+    Dialog dialog;
+    View v;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -38,7 +46,7 @@ public class Compras extends Fragment {
     Context context;
     FloatingActionButton buttonA;
 
-    public Compras() {
+    public ComprasFragment() {
         // Required empty public constructor
     }
 
@@ -48,11 +56,11 @@ public class Compras extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Compras.
+     * @return A new instance of fragment ComprasFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static Compras newInstance(String param1, String param2) {
-        Compras fragment = new Compras();
+    public static ComprasFragment newInstance(String param1, String param2) {
+        ComprasFragment fragment = new ComprasFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -70,10 +78,21 @@ public class Compras extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_compras, container, false);
+        v = inflater.inflate(R.layout.fragment_compras, container, false);
+        dialog = new Dialog(v.getContext());
+
+        buttonA = (FloatingActionButton) v.findViewById(R.id.addProductoCompra);
+        buttonA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShowPopup(view);
+            }
+        });
+
+
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -86,12 +105,12 @@ public class Compras extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
+        /*if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
-        }
+        }*/
     }
 
     @Override
@@ -113,5 +132,26 @@ public class Compras extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void ShowPopup(View v) {
+        dialog.setContentView(R.layout.popup_registrar_compra);
+        RecyclerView lista;
+        final EditText editTextProducto;
+        final EditText editTextLugar;
+        final EditText editTextPrecio;
+        FloatingActionButton buttonGuardar;
+        FloatingActionButton buttonCancelar;
+        FloatingActionButton buttonBuscarProducto;
+        FloatingActionButton buttonBuscarLugar;
+
+        editTextProducto = (EditText) dialog.findViewById(R.id.editTextProducto);
+        editTextLugar = (EditText) dialog.findViewById(R.id.editTextLugar);
+        editTextPrecio = (EditText) dialog.findViewById(R.id.editTextPrecio);
+        buttonGuardar = (FloatingActionButton) dialog.findViewById(R.id.btnGuardarCompra);
+        buttonCancelar = (FloatingActionButton) dialog.findViewById(R.id.btnCancelarCompra);
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
     }
 }

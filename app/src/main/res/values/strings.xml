@@ -3,12 +3,30 @@
     <string name="title_home">Home</string>
     <string name="title_compra">Comprar</string>
     <string name="title_notifications">Notifications</string>
-
+    <!--formulario producto-->
+    <string name="hint_nombre_producto">Ingrese el producto...</string>
+    <string name="lbl_nommbre_producto">Nombre</string>
+    <string name="hint_precio_producto">Ingrese el precio...</string>
+    <string name="lbl_precio_producto">Precio</string>
+    <string name="hint_unidad_medida_producto">Ingrese la unidad de medida...</string>
+    <string name="lbl_medida_producto">Medida</string>
+    <string name="lbl_unidad_medida_producto">Unidad de medida</string>
+    <string name="btn_guardar_formulario">Guardar</string>
     <string name="txtNombre_Producto">Nombre</string>
     <string name="txtUbicacion_lugar">Ubicacion</string>
     <string name="txtValor_Producto">Valor</string>
     <string name="hinNombre_Producto">Nombre del Producto</string>
     <string name="hinUbicacion_lugar">Ubicacion</string>
     <string name="hinValor_Producto">Valor del Prodcuto</string>
-
+    <string-array name="unidad_medida_array">
+        <item>Gramo</item>
+        <item>Kilogramo</item>
+        <item>Onza</item>
+        <item>Litro</item>
+        <item>MiliLitro</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+>>>>>>> 313ef37f09430acb121beef0a6df3969d585bd8c
+>>>>>>> fdf541258436d2120e7c618e5865cd7b810efbfc
 </resources>
