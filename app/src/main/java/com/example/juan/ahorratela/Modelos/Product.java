@@ -1,6 +1,4 @@
-package com.example.juan.ahorratela.Model;
-
-import com.example.juan.ahorratela.Controller.ProductoDbHelper;
+package com.example.juan.ahorratela.Modelos;
 
 /**
  * Created by MattSeidel on 28/09/18.
@@ -14,8 +12,15 @@ public class Product {
     private int measure;
     private int unitMeasuerment;
 
+    public Product(int id, String name, int price, int measure, int unitMeasuerment) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.measure = measure;
+        this.unitMeasuerment = unitMeasuerment;
+    }
 
-    public Product( String name, int price, int measure, int unitMeasuerment) {
+    public Product(String name, int price, int measure, int unitMeasuerment) {
         this.name = name;
         this.price = price;
         this.measure = measure;
