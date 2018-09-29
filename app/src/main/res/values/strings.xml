@@ -12,12 +12,17 @@
     <string name="lbl_medida_producto">Medida</string>
     <string name="lbl_unidad_medida_producto">Unidad de medida</string>
     <string name="btn_guardar_formulario">Guardar</string>
+<<<<<<< HEAD
     <string name="txtNombre_Producto">Nombre</string>
     <string name="txtUbicacion_lugar">Ubicacion</string>
     <string name="txtValor_Producto">Valor</string>
     <string name="hinNombre_Producto">Nombre del Producto</string>
     <string name="hinUbicacion_lugar">Ubicacion</string>
     <string name="hinValor_Producto">Valor del Prodcuto</string>
+=======
+    =======
+
+>>>>>>> d740e4c710987f38c177af49f79a20cc805e3617
     <string-array name="unidad_medida_array">
         <item>Gramo</item>
         <item>Kilogramo</item>
@@ -27,6 +32,10 @@
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+<<<<<<< HEAD
 >>>>>>> 313ef37f09430acb121beef0a6df3969d585bd8c
 >>>>>>> fdf541258436d2120e7c618e5865cd7b810efbfc
+=======
+    >>>>>>> 313ef37f09430acb121beef0a6df3969d585bd8c
+>>>>>>> d740e4c710987f38c177af49f79a20cc805e3617
 </resources>

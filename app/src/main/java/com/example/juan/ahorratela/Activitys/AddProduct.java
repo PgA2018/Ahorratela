@@ -1,4 +1,4 @@
-package com.example.juan.ahorratela;
+package com.example.juan.ahorratela.Activitys;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
@@ -10,8 +10,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.juan.ahorratela.Controller.ProductoDbHelper;
-import com.example.juan.ahorratela.Model.Product;
+import com.example.juan.ahorratela.DB.ProductDB;
+import com.example.juan.ahorratela.Modelos.Product;
+import com.example.juan.ahorratela.R;
 
 public class AddProduct extends AppCompatActivity {
 
@@ -23,7 +24,7 @@ public class AddProduct extends AppCompatActivity {
     private ArrayAdapter<CharSequence> unidadMedidaAdapter;
     private Button save;
     private Context context;
-    private ProductoDbHelper productoDbHelper;
+    private ProductDB productoDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,7 @@ public class AddProduct extends AppCompatActivity {
         txtMedida = setEditText(R.id.medida_field);
         txtPrecio = setEditText(R.id.precio_producto_field);
         inicializateSpinner();
-        productoDbHelper = new ProductoDbHelper(context, "product.db", null, 1);
+        productoDbHelper = new ProductDB(context, "product.db", null, 1);
         save = (Button) findViewById(R.id.save_add_product_btn);
         save.setOnClickListener(new View.OnClickListener() {
 

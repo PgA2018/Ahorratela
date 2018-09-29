@@ -12,6 +12,12 @@
         <activity
             android:name=".Activitys.MainActivity"
             android:label="@string/app_name">
+<<<<<<< HEAD
+=======
+        </activity>
+        <activity android:name=".Activitys.AddProduct">
+
+>>>>>>> d740e4c710987f38c177af49f79a20cc805e3617
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
