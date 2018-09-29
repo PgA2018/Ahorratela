@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_lugares"
+    android:background="@drawable/lugares_dw"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10px"
+    android:layout_margin="10px"
+    android:elevation="1dp">
+    <TextView
+        android:id="@+id/nombreLugar"
+        android:text="Nombre del lugar"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10px"
+        android:layout_marginLeft="10px"
+        android:paddingLeft="10px"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+    <TextView
+        android:id="@+id/ubicacionLugar"
+        android:text="Ubicación del lugar"
+        android:textSize="15sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10px"
+        android:layout_marginLeft="10px"
+        android:paddingLeft="10px"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/nombreLugar"
+        android:textColor="@color/colorGrayText"/>
+
+    <TextView
+        android:id="@+id/idLugar"
+        android:text="id del lugar"
+        android:textSize="15sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10px"
+        android:layout_marginLeft="10px"
+        android:paddingLeft="10px"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/ubicacionLugar"
+        android:visibility="gone"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/eliminarLugar"
+        android:src="@drawable/ic_delete"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10px"/>
+</RelativeLayout>

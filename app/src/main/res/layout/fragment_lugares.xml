@@ -1,13 +1,23 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.juan.ahorratela.LugaresFragment">
+    android:orientation="vertical"
+    tools:context="com.example.juan.ahorratela.Fragments.LugaresFragment">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/lugares"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_marginBottom="350px">
+    </android.support.v7.widget.RecyclerView>
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/addLugar"
+        android:src="@drawable/ic_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="200px"/>
 
-</LinearLayout>
+</FrameLayout>
