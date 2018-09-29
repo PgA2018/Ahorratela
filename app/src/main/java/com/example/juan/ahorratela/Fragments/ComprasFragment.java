@@ -1,22 +1,33 @@
 package com.example.juan.ahorratela.Fragments;
 
+import android.app.Activity;
+import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.example.juan.ahorratela.Activitys.Global;
+import com.example.juan.ahorratela.Activitys.buttonClickInterface;
+import com.example.juan.ahorratela.Adapters.ComprasLugaresAdapter;
+import com.example.juan.ahorratela.DB.ComprasDB;
+import com.example.juan.ahorratela.DB.LugaresDB;
+import com.example.juan.ahorratela.Modelos.LugaresModel;
 import com.example.juan.ahorratela.R;
+
+import java.util.ArrayList;
 
 
 /**
@@ -27,9 +38,18 @@ import com.example.juan.ahorratela.R;
  * Use the {@link ComprasFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ComprasFragment extends Fragment {
+
+public class ComprasFragment extends Fragment implements buttonClickInterface {
     Dialog dialog;
     View v;
+    ComprasDB comprasDB;
+    ComprasLugaresAdapter comprasLugaresAdapter;
+    ArrayList<LugaresModel> lugares;
+    LugaresModel lugar;
+    LinearLayoutManager llm;
+    EditText editTextLugar;
+    RecyclerView lista;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -42,9 +62,11 @@ public class ComprasFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     RecyclerView rv;
-    //List<Estudiante> estudentList;
     Context context;
     FloatingActionButton buttonA;
+    LugaresDB lugaresDB;
+    InputMethodManager imm;
+    buttonClickInterface buttonClickInterface;
 
     public ComprasFragment() {
         // Required empty public constructor
@@ -91,6 +113,9 @@ public class ComprasFragment extends Fragment {
             }
         });
 
+        imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        buttonClickInterface = this;
 
         return v;
     }
@@ -119,6 +144,15 @@ public class ComprasFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void click(LugaresModel lugar) {
+        this.lugar = lugar;
+        editTextLugar.setText(this.lugar.getNombre().toString());
+        lugares = new ArrayList<>();
+        comprasLugaresAdapter = new ComprasLugaresAdapter(lugares,getActivity(),buttonClickInterface);
+        lista.setAdapter(comprasLugaresAdapter);
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -134,24 +168,61 @@ public class ComprasFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public void ShowPopup(View v) {
+    public void ShowPopup(final View v) {
         dialog.setContentView(R.layout.popup_registrar_compra);
-        RecyclerView lista;
+
         final EditText editTextProducto;
-        final EditText editTextLugar;
+
         final EditText editTextPrecio;
         FloatingActionButton buttonGuardar;
         FloatingActionButton buttonCancelar;
         FloatingActionButton buttonBuscarProducto;
-        FloatingActionButton buttonBuscarLugar;
+        final FloatingActionButton buttonBuscarLugar;
 
         editTextProducto = (EditText) dialog.findViewById(R.id.editTextProducto);
         editTextLugar = (EditText) dialog.findViewById(R.id.editTextLugar);
         editTextPrecio = (EditText) dialog.findViewById(R.id.editTextPrecio);
         buttonGuardar = (FloatingActionButton) dialog.findViewById(R.id.btnGuardarCompra);
         buttonCancelar = (FloatingActionButton) dialog.findViewById(R.id.btnCancelarCompra);
+        buttonBuscarProducto = (FloatingActionButton) dialog.findViewById(R.id.btnBuscarProducto);
+        buttonBuscarLugar = (FloatingActionButton) dialog.findViewById(R.id.btnBuscarLugar);
+        lista = (RecyclerView) dialog.findViewById(R.id.list_item);
+
+        lugaresDB = new LugaresDB(v.getContext());
+        llm = new LinearLayoutManager(v.getContext());
+        lista.setLayoutManager(llm);
+
+        buttonBuscarLugar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lugares = lugaresDB.getOneNombre(editTextLugar.getText().toString());
+                comprasLugaresAdapter = new ComprasLugaresAdapter(lugares, getActivity(), buttonClickInterface);
+                lista.setAdapter(comprasLugaresAdapter);
+                imm.hideSoftInputFromWindow(buttonBuscarLugar.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        });
+
+        buttonCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
 
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
+    }
+    public boolean validarTexto(String texto){
+        boolean bool = true;
+        if(texto.isEmpty()){
+            bool = false;
+        }
+        if(texto == ""){
+            bool = false;
+        }
+        if(texto == null){
+            bool = false;
+        }
+        return bool;
     }
 }

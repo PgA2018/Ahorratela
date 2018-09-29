@@ -6,56 +6,51 @@
     android:layout_height="match_parent"
     android:background="@drawable/lugares_dw">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+
         <EditText
             android:id="@+id/editTextProducto"
             android:hint="Ingrese el nombre del producto a buscar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center"/>
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/btnBuscarProducto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="40px"
             android:layout_marginRight="50px"
-            android:src="@drawable/ic_cancel"
-            android:layout_alignParentRight="true"/>
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+            android:src="@drawable/ic_search"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center"/>
 
         <EditText
             android:id="@+id/editTextLugar"
             android:hint="Ingrese el nombre del lugar a buscar"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/btnBuscarLugar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="40px"
             android:layout_marginRight="50px"
-            android:src="@drawable/ic_cancel" />
+            android:src="@drawable/ic_search"
+            android:layout_gravity="center"/>
 
-    </LinearLayout>
-
-    <EditText
-        android:id="@+id/editTextPrecio"
-        android:hint="Ingrese el valor del producto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/editTextPrecio"
+            android:hint="Ingrese el valor del producto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:inputType="number"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="99dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -76,9 +71,8 @@
             android:src="@drawable/ic_save" />
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_item"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
-
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 </LinearLayout>

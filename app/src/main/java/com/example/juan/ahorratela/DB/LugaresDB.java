@@ -93,7 +93,7 @@ public class LugaresDB extends SQLiteOpenHelper{
         return array;
     }
 
-    public LugaresModel getOne(String id) {
+    public LugaresModel getOneId(String id) {
 
         LugaresModel lugar = null;
 
@@ -118,6 +118,33 @@ public class LugaresDB extends SQLiteOpenHelper{
         }
 
         return lugar;
+    }
+
+    public ArrayList<LugaresModel> getOneNombre(String nombre) {
+
+        ArrayList<LugaresModel> array = new ArrayList<LugaresModel>();
+
+        SQLiteDatabase db = getReadableDatabase();
+        if (db != null) {
+
+            String q = "SELECT * FROM " + TABLE_NAME + " WHERE " + NOMBRE + " LIKE '%" + nombre + "%'";
+            try {
+                Cursor c = db.rawQuery(q, null);
+                LugaresModel lugar = null;
+                while (c.moveToNext()) {
+                    lugar = new LugaresModel(
+                            c.getInt(0),
+                            c.getString(1),
+                            c.getString(2)
+                    );
+                    array.add(lugar);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            db.close();
+        }
+        return array;
     }
 
     public LugaresModel update(String id, String nombre, String ubicacion) {

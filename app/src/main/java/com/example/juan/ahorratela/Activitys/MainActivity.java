@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.juan.ahorratela.Fragments.ComprasFragment;
 import com.example.juan.ahorratela.Fragments.LugaresFragment;
+import com.example.juan.ahorratela.Modelos.LugaresModel;
 import com.example.juan.ahorratela.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -46,10 +47,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.fragment, lugaresFragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.fragment, comprasFragment).commit();
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-    }
 
+
+    }
 }

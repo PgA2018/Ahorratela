@@ -8,13 +8,11 @@ public class Compra {
 
     private int id;
     private int id_producto;
-    private int id_ubicacion; 
+    private int id_ubicacion;
 
-
-
-    public Compra(int price, int measure) {
-        this.id_producto = price;
-        this.id_ubicacion = measure;
+    public Compra(int producto, int ubicacion) {
+        this.id_producto = producto;
+        this.id_ubicacion = ubicacion;
     }
 
     public int getId() {
@@ -25,20 +23,20 @@ public class Compra {
         this.id = id;
     }
 
-    public int getPrice() {
+    public int getId_producto() {
         return id_producto;
     }
 
-    public void setPrice(int price) {
-        this.id_producto = price;
+    public void setId_producto(int producto) {
+        this.id_producto = producto;
     }
 
-    public int getMeasure() {
+    public int getId_ubicacion() {
         return id_ubicacion;
     }
 
-    public void setMeasure(int measure) {
-        this.id_ubicacion = measure;
+    public void setUbicacion(int ubicacion) {
+        this.id_ubicacion = ubicacion;
     }
 
 }

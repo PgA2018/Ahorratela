@@ -5,7 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.juan.ahorratela.Modelos.LugaresModel;
+import com.example.juan.ahorratela.Modelos.Compra;
+import com.example.juan.ahorratela.Modelos.Compra;
 
 import java.util.ArrayList;
 
@@ -20,7 +21,7 @@ public class ComprasDB extends SQLiteOpenHelper{
     String INT_TYPE = "integer";
     String BOOLEAN_TYPE = "boolean";
 
-    String TABLE_NAME = "LugaresModel";
+    String TABLE_NAME = "Compras";
 
     String ID = "id";
     String PRODUCTO = "id_producto";
@@ -33,7 +34,7 @@ public class ComprasDB extends SQLiteOpenHelper{
             +UBICACION+" "+STRING_TYPE+" NOT NULL) ";
 
     public ComprasDB(Context context) {
-        super(context, "LugaresModel",null,1);
+        super(context, "Compra",null,1);
         this.context = context;
     }
 
@@ -49,13 +50,13 @@ public class ComprasDB extends SQLiteOpenHelper{
         sqLiteDatabase.execSQL(CREATE_SCRIPT);
     }
 
-    public boolean create(LugaresModel lugar) {
+    public boolean create(Compra compra) {
         boolean ret = false;
 
         SQLiteDatabase db = getWritableDatabase();
         if (db != null) {
             try {
-                String q = "INSERT INTO " + TABLE_NAME + " (" + PRODUCTO + ", " + UBICACION + ") " + "VALUES(" + "'" + lugar.getNombre().toString()+ "', " + "'" + lugar.getUbicacion().toString() + "')";
+                String q = "INSERT INTO " + TABLE_NAME + " (" + PRODUCTO + ", " + UBICACION + ") " + "VALUES(" + "'" + compra.getId_producto()+ "', " + "'" + compra.getId_ubicacion() + "')";
                 db.execSQL(q);
                 ret = true;
             } catch (Exception e) {
@@ -67,9 +68,9 @@ public class ComprasDB extends SQLiteOpenHelper{
         return ret;
     }
 
-    public ArrayList<LugaresModel> getAll() {
+    public ArrayList<Compra> getAll() {
 
-        ArrayList<LugaresModel> array = new ArrayList<LugaresModel>();
+        ArrayList<Compra> array = new ArrayList<Compra>();
 
         SQLiteDatabase db = getReadableDatabase();
         if (db != null) {
@@ -77,14 +78,13 @@ public class ComprasDB extends SQLiteOpenHelper{
             String q = "SELECT * FROM " + TABLE_NAME;
             try {
                 Cursor c = db.rawQuery(q, null);
-                LugaresModel lugar = null;
+                Compra compra = null;
                 while (c.moveToNext()) {
-                    lugar = new LugaresModel(
+                    compra = new Compra(
                             c.getInt(0),
-                            c.getString(1),
-                            c.getString(2)
+                            c.getInt(1)
                     );
-                    array.add(lugar);
+                    array.add(compra);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -94,9 +94,9 @@ public class ComprasDB extends SQLiteOpenHelper{
         return array;
     }
 
-    public LugaresModel getOne(String id) {
+    public Compra getOne(String id) {
 
-        LugaresModel lugar = null;
+        Compra compra = null;
 
         SQLiteDatabase db = getReadableDatabase();
         if (db != null) {
@@ -104,12 +104,11 @@ public class ComprasDB extends SQLiteOpenHelper{
             String q = "SELECT * FROM " + TABLE_NAME + " WHERE " + ID + " = '"+ id +"'";
             try {
                 Cursor c = db.rawQuery(q, null);
-                lugar = null;
+                compra = null;
                 while (c.moveToNext()) {
-                    lugar = new LugaresModel(
+                    compra = new Compra(
                             c.getInt(0),
-                            c.getString(1),
-                            c.getString(2)
+                            c.getInt(1)
                     );
                 }
             } catch (Exception e) {
@@ -118,27 +117,26 @@ public class ComprasDB extends SQLiteOpenHelper{
             db.close();
         }
 
-        return lugar;
+        return compra;
     }
 
-    public LugaresModel update(String id, String nombre, String ubicacion) {
+    public Compra update(String id, String id_producto, String id_ubicacion) {
 
-        LugaresModel lugar = null;
+        Compra compra = null;
 
         SQLiteDatabase db = getReadableDatabase();
         if (db != null) {
-            String q = "UPDATE " + TABLE_NAME +" SET "+PRODUCTO +"='"+nombre+"',"+ UBICACION +"='"+ubicacion+"'" +" WHERE " + ID + " = '"+ id +"'";
+            String q = "UPDATE " + TABLE_NAME +" SET "+PRODUCTO +"='"+id_producto+"',"+ UBICACION +"='"+id_ubicacion+"'" +" WHERE " + ID + " = '"+ id +"'";
             db.execSQL(q);
 
             String q2 = "SELECT * FROM " + TABLE_NAME + " WHERE " + ID + " = '"+ id +"'";
             try {
                 Cursor c = db.rawQuery(q2, null);
-                lugar = null;
+                compra = null;
                 while (c.moveToNext()) {
-                    lugar = new LugaresModel(
+                    compra = new Compra(
                             c.getInt(0),
-                            c.getString(1),
-                            c.getString(2)
+                            c.getInt(1)
                     );
                 }
             } catch (Exception e) {
@@ -147,7 +145,7 @@ public class ComprasDB extends SQLiteOpenHelper{
             db.close();
         }
 
-        return lugar;
+        return compra;
     }
 
     public void deleteAll(){
@@ -166,7 +164,7 @@ public class ComprasDB extends SQLiteOpenHelper{
 
     public boolean deleteOne(String id) {
         boolean ret = false;
-        LugaresModel lugar = null;
+        Compra lugar = null;
 
         SQLiteDatabase db = getWritableDatabase();
         if (db != null) {
