@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
                     ft.commit();
                     return true;
                 case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
-                    fragment = new LugaresFragment();
+                    mTextMessage.setText(R.string.title_compra);
+                    fragment = new Compras();
                     ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.fragment, fragment);
                     ft.commit();

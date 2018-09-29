@@ -1,9 +1,14 @@
 <resources>
     <string name="app_name">Ahorratela</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_compra">Comprar</string>
     <string name="title_notifications">Notifications</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="txtNombre_Producto">Nombre</string>
+    <string name="txtUbicacion_lugar">Ubicacion</string>
+    <string name="txtValor_Producto">Valor</string>
+    <string name="hinNombre_Producto">Nombre del Producto</string>
+    <string name="hinUbicacion_lugar">Ubicacion</string>
+    <string name="hinValor_Producto">Valor del Prodcuto</string>
+
 </resources>
