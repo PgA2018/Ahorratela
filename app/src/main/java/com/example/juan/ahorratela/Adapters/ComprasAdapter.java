@@ -20,7 +20,6 @@ import java.util.List;
 public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresViewHolder>{
     List<ComprasModel> compraList;
     Context context;
-    String plato;
     AhorratelaDB lugaresDB;
 
 
@@ -38,10 +37,9 @@ public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresV
 
     @Override
     public void onBindViewHolder(LugaresViewHolder holder, int position) {
-        ComprasModel lugares = compraList.get(position);
-        holder.id.setText(lugares.getId());
-        holder.producto.setText(lugares.getId_producto());
-        holder.valor.setText(lugares.getId_ubicacion());
+        ComprasModel compra = compraList.get(position);
+        holder.id_producto.setText(""+compra.getId_producto());
+        holder.valor.setText(""+compra.getId_ubicacion());
     }
 
     @Override
@@ -50,14 +48,12 @@ public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresV
     }
 
     public class LugaresViewHolder extends RecyclerView.ViewHolder{
-        TextView id;
-        TextView producto;
+        TextView id_producto;
         TextView valor;
 
         public LugaresViewHolder(final View itemView) {
             super(itemView);
-            id = (TextView) itemView.findViewById(R.id.producto_id);
-            producto = (TextView) itemView.findViewById(R.id.producto_name);
+            id_producto = (TextView) itemView.findViewById(R.id.producto_name);
             valor = (TextView) itemView.findViewById(R.id.producto_value);
         }
     }
