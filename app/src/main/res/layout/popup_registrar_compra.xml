@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="40px"
                 android:layout_marginLeft="50px"
-                android:src="@drawable/ic_save" />
+                android:src="@drawable/ic_accept" />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
