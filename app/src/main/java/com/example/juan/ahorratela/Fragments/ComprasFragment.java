@@ -218,13 +218,28 @@ public class ComprasFragment extends Fragment implements buttonClickInterface {
         buttonGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                compras.add(new ComprasModel(
-                        producto.getId(),
-                        lugar.getId()));
-
-                comprasAdapter = new ComprasAdapter(compras);
-                compras_list.setAdapter(comprasAdapter);
-                dialog.dismiss();
+                if(!editTextLugar.getText().toString().equals("") && !editTextProducto.getText().toString().equals("")){
+                    LugaresModel lugar = ahorratelaDB.getLugarByNombreBool(editTextLugar.getText().toString());
+                    ProductosModel producto = ahorratelaDB.getProductoByNombreBool(editTextProducto.getText().toString());
+                    if(lugar == null){
+                        Toast.makeText(view.getContext(), "Seleccione un lugar válido", Toast.LENGTH_SHORT).show();
+                    }
+                    if(producto == null){
+                        Toast.makeText(view.getContext(), "Seleccione un producto válido", Toast.LENGTH_SHORT).show();
+                    }
+                    if(lugar!=null && producto!=null){
+                        compras.add(new ComprasModel(
+                                producto.getId(),
+                                lugar.getId()));
+                        producto = null;
+                        lugar = null;
+                        comprasAdapter = new ComprasAdapter(compras);
+                        compras_list.setAdapter(comprasAdapter);
+                        dialog.dismiss();
+                    }
+                }else{
+                    Toast.makeText(view.getContext(), "Campos no válidos", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
