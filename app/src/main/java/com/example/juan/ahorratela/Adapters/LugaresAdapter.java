@@ -26,7 +26,6 @@ import java.util.List;
 public class LugaresAdapter extends RecyclerView.Adapter<LugaresAdapter.LugaresViewHolder>{
     List<LugaresModel> lugaresList;
     Context context;
-    String plato;
     LugaresDB lugaresDB;
 
     public LugaresAdapter(List<LugaresModel> lugaresList) {

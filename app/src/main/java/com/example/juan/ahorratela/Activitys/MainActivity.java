@@ -3,24 +3,21 @@ package com.example.juan.ahorratela.Activitys;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.juan.ahorratela.Fragments.ComprasFragment;
 import com.example.juan.ahorratela.Fragments.LugaresFragment;
+import com.example.juan.ahorratela.Modelos.LugaresModel;
 import com.example.juan.ahorratela.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView mTextMessage;
     FragmentManager fragmentManager;
     LugaresFragment lugaresFragment = new LugaresFragment();
+    ComprasFragment comprasFragment = new ComprasFragment();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -29,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     fragmentManager = getSupportFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.fragment, lugaresFragment).commit();
+                    fragmentManager.beginTransaction().replace(R.id.fragment, comprasFragment).commit();
                     return true;
                 case R.id.navigation_dashboard:
                     fragmentManager = getSupportFragmentManager();
@@ -50,10 +47,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.fragment, lugaresFragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.fragment, comprasFragment).commit();
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-    }
 
+
+    }
 }
