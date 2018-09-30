@@ -1,42 +1,43 @@
 package com.example.juan.ahorratela.Fragments;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.example.juan.ahorratela.DB.ProductDB;
-import com.example.juan.ahorratela.Modelos.Product;
+import android.widget.EditText;
+import android.widget.Toast;
+import com.example.juan.ahorratela.Adapters.ProductosAdapter;
+import com.example.juan.ahorratela.DB.AhorratelaDB;
+import com.example.juan.ahorratela.Modelos.ProductosModel;
 import com.example.juan.ahorratela.R;
 
-import java.util.List;
+import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ProductosFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ProductosFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ProductosFragment extends Fragment {
+
+    RecyclerView recyclerView;
+    View v;
+    FloatingActionButton buttonAdd;
+    ArrayList<ProductosModel> productos = new ArrayList<>();
+    ProductosAdapter productosAdapter;
+    LinearLayoutManager llm;
+    Dialog dialog;
+    AhorratelaDB ahorratelaDB;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-
-    private RecyclerView recycler;
-    private RecyclerView.Adapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
-    private ProductDB DB;
-    private FloatingActionButton buttonAdd;
-    List<Product> items;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -47,14 +48,6 @@ public class ProductosFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ProductosFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static ProductosFragment newInstance(String param1, String param2) {
         ProductosFragment fragment = new ProductosFragment();
@@ -75,19 +68,33 @@ public class ProductosFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        v = inflater.inflate(R.layout.fragment_productos, container, false);
 
-        View v = inflater.inflate(R.layout.fragment_productos, container, false);
-        DB = new ProductDB(getContext(), "product.db", null, 1);
-        items = DB.getAll();
+        ahorratelaDB = new AhorratelaDB(getContext());
+
+        productos = ahorratelaDB.getAllProductos();
+
         buttonAdd = (FloatingActionButton) v.findViewById(R.id.addProducto);
+        buttonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShowPopup(view);
+            }
+        });
 
-        return inflater.inflate(R.layout.fragment_productos, container, false);
+        dialog = new Dialog(getContext());
+
+        llm = new LinearLayoutManager(v.getContext());
+        recyclerView = (RecyclerView) v.findViewById(R.id.productos);
+        recyclerView.setLayoutManager(llm);
+
+        productosAdapter = new ProductosAdapter(productos);
+        recyclerView.setAdapter(productosAdapter);
+        return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    // TODO: Rename method, updateLugar argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -97,12 +104,12 @@ public class ProductosFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
+        /*if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
-        }
+        }*/
     }
 
     @Override
@@ -111,18 +118,66 @@ public class ProductosFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void ShowPopup(View v) {
+        final EditText editTextNombre;
+        FloatingActionButton buttonGuardar;
+        FloatingActionButton buttonCancelar;
+
+        dialog.setContentView(R.layout.popup_registrar_productos);
+
+        editTextNombre = (EditText) dialog.findViewById(R.id.editTextNombrePro);
+        buttonGuardar = (FloatingActionButton) dialog.findViewById(R.id.btnGuardarProducto);
+        buttonCancelar = (FloatingActionButton) dialog.findViewById(R.id.btnCancelarProducto);
+
+        buttonGuardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(validarTexto(editTextNombre.getText().toString())){
+                    boolean bool = ahorratelaDB.createProducto(new ProductosModel(
+                            1,
+                            editTextNombre.getText().toString())
+                    );
+                    if(bool){
+                        productos = ahorratelaDB.getAllProductos();
+                        productosAdapter = new ProductosAdapter(productos);
+                        recyclerView.setAdapter(productosAdapter);
+                        dialog.dismiss();
+                    }
+                }else{
+                    Toast.makeText(view.getContext(), "Los campos no pueden estar vacíos", Toast.LENGTH_SHORT).show();
+                }
+                dialog.dismiss();
+            }
+        });
+
+        buttonCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+
+    }
+
+    public boolean validarTexto(String texto){
+        boolean bool = true;
+        if(texto.isEmpty()){
+            bool = false;
+        }
+        if(texto == ""){
+            bool = false;
+        }
+        if(texto == null){
+            bool = false;
+        }
+        return bool;
     }
 }

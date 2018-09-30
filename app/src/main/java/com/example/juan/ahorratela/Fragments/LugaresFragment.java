@@ -15,9 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.example.juan.ahorratela.Adapters.LugaresAdapter;
-import com.example.juan.ahorratela.DB.LugaresDB;
+import com.example.juan.ahorratela.DB.AhorratelaDB;
 import com.example.juan.ahorratela.Modelos.LugaresModel;
 import com.example.juan.ahorratela.R;
 
@@ -32,7 +31,7 @@ public class LugaresFragment extends Fragment {
     LugaresAdapter lugaresAdapter;
     LinearLayoutManager llm;
     Dialog dialog;
-    LugaresDB lugaresDB;
+    AhorratelaDB ahorratelaDB;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -72,9 +71,9 @@ public class LugaresFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_lugares, container, false);
 
-        lugaresDB = new LugaresDB(getContext());
+        ahorratelaDB = new AhorratelaDB(getContext());
 
-        lugares = lugaresDB.getAll();
+        lugares = ahorratelaDB.getAllLugares();
 
         buttonAdd = (FloatingActionButton) v.findViewById(R.id.addLugar);
         buttonAdd.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +94,7 @@ public class LugaresFragment extends Fragment {
         return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    // TODO: Rename method, updateLugar argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -141,13 +140,13 @@ public class LugaresFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(validarTexto(editTextNombre.getText().toString()) && validarTexto(editTextUbicacion.getText().toString())){
-                    boolean bool = lugaresDB.create(new LugaresModel(
+                    boolean bool = ahorratelaDB.createLugar(new LugaresModel(
                             1,
                             editTextNombre.getText().toString(),
                             editTextUbicacion.getText().toString())
                     );
                     if(bool){
-                        lugares = lugaresDB.getAll();
+                        lugares = ahorratelaDB.getAllLugares();
                         lugaresAdapter = new LugaresAdapter(lugares);
                         recyclerView.setAdapter(lugaresAdapter);
                         dialog.dismiss();

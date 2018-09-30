@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.juan.ahorratela.DB.AhorratelaDB;
-import com.example.juan.ahorratela.Modelos.LugaresModel;
+import com.example.juan.ahorratela.Modelos.ProductosModel;
 import com.example.juan.ahorratela.R;
 
 import java.util.List;
@@ -23,77 +23,74 @@ import java.util.List;
  * Created by juan on 05/12/2017.
  */
 
-public class LugaresAdapter extends RecyclerView.Adapter<LugaresAdapter.LugaresViewHolder>{
-    List<LugaresModel> lugaresList;
+public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.ProductosViewHolder>{
+    List<ProductosModel> productosModels;
     Context context;
-    AhorratelaDB ahorratelaDB;
+    AhorratelaDB productosDB;
 
-    public LugaresAdapter(List<LugaresModel> lugaresList) {
-        this.lugaresList = lugaresList;
+    public ProductosAdapter(List<ProductosModel> productosModels) {
+        this.productosModels = productosModels;
     }
 
     @Override
-    public LugaresViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_lugares, parent, false);
-        LugaresViewHolder lugaresViewHolder = new LugaresViewHolder(v);
+    public ProductosViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_productos, parent, false);
+        ProductosViewHolder lugaresViewHolder = new ProductosViewHolder(v);
         context = v.getContext();
         return lugaresViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(LugaresViewHolder holder, int position) {
-        LugaresModel lugares = lugaresList.get(position);
-        holder.id.setText(lugares.getId().toString());
-        holder.nombre.setText(lugares.getNombre());
-        holder.ubicacion.setText(lugares.getUbicacion());
+    public void onBindViewHolder(ProductosViewHolder holder, int position) {
+        ProductosModel productos = productosModels.get(position);
+        holder.id.setText(productos.getId().toString());
+        holder.nombre.setText(productos.getNombre());
     }
 
     @Override
     public int getItemCount() {
-        return lugaresList.size();
+        return productosModels.size();
     }
 
-    public class LugaresViewHolder extends RecyclerView.ViewHolder{
+    public class ProductosViewHolder extends RecyclerView.ViewHolder{
         TextView id;
         TextView nombre;
-        TextView ubicacion;
-        FloatingActionButton eliminarLugar;
+        FloatingActionButton eliminarProducto;
         Dialog dialog, dialogEdit;
-        FloatingActionButton aceptarEliminarLugar;
-        FloatingActionButton cancelarEliminarLugar;
-        FloatingActionButton aceptarEditarLugarConfirmacion;
-        FloatingActionButton cancelarEditarLugarConfirmacion;
+        FloatingActionButton aceptarEliminarProducto;
+        FloatingActionButton cancelarEliminarProducto;
+        FloatingActionButton aceptarEditarProductoConfirmacion;
+        FloatingActionButton cancelarEditarProductoConfirmacion;
         FloatingActionButton editarLugarAceptar;
         FloatingActionButton editarLugarCancelar;
         EditText editTextNombre;
-        EditText editTextLugar;
 
-        public LugaresViewHolder(final View itemView) {
+
+        public ProductosViewHolder(final View itemView) {
             super(itemView);
-            id = (TextView) itemView.findViewById(R.id.idLugar);
-            nombre = (TextView) itemView.findViewById(R.id.nombreLugar);
-            ubicacion = (TextView) itemView.findViewById(R.id.ubicacionLugar);
-            eliminarLugar = (FloatingActionButton) itemView.findViewById(R.id.eliminarLugar);
+            id = (TextView) itemView.findViewById(R.id.idProducto);
+            nombre = (TextView) itemView.findViewById(R.id.nombreProducto);
+            eliminarProducto = (FloatingActionButton) itemView.findViewById(R.id.eliminarProducto);
             dialog = new Dialog(itemView.getContext());
             dialogEdit = new Dialog(itemView.getContext());
 
-            eliminarLugar.setOnClickListener(new View.OnClickListener() {
+            eliminarProducto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    dialog.setContentView(R.layout.popup_eliminar_lugares_conf);
-                    aceptarEliminarLugar = (FloatingActionButton) dialog.findViewById(R.id.btnAceptarEliminarLugar);
-                    cancelarEliminarLugar = (FloatingActionButton) dialog.findViewById(R.id.btnCancelarEliminarLugar);
+                    dialog.setContentView(R.layout.popup_eliminar_productos_conf);
+                    aceptarEliminarProducto = (FloatingActionButton) dialog.findViewById(R.id.btnAceptarEliminarProducto);
+                    cancelarEliminarProducto = (FloatingActionButton) dialog.findViewById(R.id.btnCancelarEliminarProducto);
 
-                    aceptarEliminarLugar.setOnClickListener(new View.OnClickListener() {
+                    aceptarEliminarProducto.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            ahorratelaDB = new AhorratelaDB(itemView.getContext());
-                            boolean delete = ahorratelaDB.deleteLugar(id.getText().toString());
+                            productosDB = new AhorratelaDB(itemView.getContext());
+                            boolean delete = productosDB.deleteProducto(id.getText().toString());
                             if (delete){
-                                for (int i=0; i<lugaresList.size();i++){
-                                    if(lugaresList.get(i).getId().toString() == id.getText().toString()){
-                                        lugaresList.remove(i);
+                                for (int i = 0; i< productosModels.size(); i++){
+                                    if(productosModels.get(i).getId().toString() == id.getText().toString()){
+                                        productosModels.remove(i);
                                         notifyItemRemoved(i);
                                     }
                                 }
@@ -102,7 +99,7 @@ public class LugaresAdapter extends RecyclerView.Adapter<LugaresAdapter.LugaresV
                         }
                     });
 
-                    cancelarEliminarLugar.setOnClickListener(new View.OnClickListener() {
+                    cancelarEliminarProducto.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             dialog.dismiss();
@@ -116,32 +113,30 @@ public class LugaresAdapter extends RecyclerView.Adapter<LugaresAdapter.LugaresV
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    dialog.setContentView(R.layout.popup_editar_lugares_conf);
-                    aceptarEditarLugarConfirmacion = (FloatingActionButton) dialog.findViewById(R.id.btnAceptarEditarLugar);
-                    cancelarEditarLugarConfirmacion = (FloatingActionButton) dialog.findViewById(R.id.btnCancelarEditarLugar);
+                    dialog.setContentView(R.layout.popup_editar_productos_conf);
+                    aceptarEditarProductoConfirmacion = (FloatingActionButton) dialog.findViewById(R.id.btnAceptarEditarProducto);
+                    cancelarEditarProductoConfirmacion = (FloatingActionButton) dialog.findViewById(R.id.btnCancelarEditarProducto);
 
-                    aceptarEditarLugarConfirmacion.setOnClickListener(new View.OnClickListener() {
+                    aceptarEditarProductoConfirmacion.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            dialogEdit.setContentView(R.layout.popup_editar_lugares);
-                            editarLugarAceptar = (FloatingActionButton) dialogEdit.findViewById(R.id.btnGuardarLugar);
-                            editarLugarCancelar = (FloatingActionButton) dialogEdit.findViewById(R.id.btnCancelarLugar);
+                            dialogEdit.setContentView(R.layout.popup_editar_productos);
+                            editarLugarAceptar = (FloatingActionButton) dialogEdit.findViewById(R.id.btnGuardarProducto);
+                            editarLugarCancelar = (FloatingActionButton) dialogEdit.findViewById(R.id.btnCancelarProducto);
                             editTextNombre = (EditText) dialogEdit.findViewById(R.id.editTextNombre1);
-                            editTextLugar = (EditText) dialogEdit.findViewById(R.id.editTextUbicacion1);
 
                             editTextNombre.setText(nombre.getText());
-                            editTextLugar.setText(ubicacion.getText().toString());
 
                             editarLugarAceptar.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    if(validarTexto(editTextNombre.getText().toString()) && validarTexto(editTextLugar.getText().toString())){
-                                        ahorratelaDB = new AhorratelaDB(itemView.getContext());
-                                        LugaresModel update = ahorratelaDB.updateLugar(id.getText().toString(), editTextNombre.getText().toString(), editTextLugar.getText().toString());
+                                    if(validarTexto(editTextNombre.getText().toString())){
+                                        productosDB = new AhorratelaDB(itemView.getContext());
+                                        ProductosModel update = productosDB.updateProducto(id.getText().toString(), editTextNombre.getText().toString());
                                         if(update != null){
-                                            for (int i=0; i<lugaresList.size();i++){
-                                                if(lugaresList.get(i).getId().toString() == update.getId().toString()){
-                                                    lugaresList.set(i, update);
+                                            for (int i = 0; i< productosModels.size(); i++){
+                                                if(productosModels.get(i).getId().toString() == update.getId().toString()){
+                                                    productosModels.set(i, update);
                                                     notifyItemChanged(i);
                                                 }
                                             }
@@ -165,7 +160,7 @@ public class LugaresAdapter extends RecyclerView.Adapter<LugaresAdapter.LugaresV
                         }
                     });
 
-                    cancelarEditarLugarConfirmacion.setOnClickListener(new View.OnClickListener() {
+                    cancelarEditarProductoConfirmacion.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             dialog.dismiss();

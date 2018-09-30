@@ -1,7 +1,5 @@
 package com.example.juan.ahorratela.Fragments;
 
-import android.app.Activity;
-import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -17,14 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.example.juan.ahorratela.Activitys.Global;
 import com.example.juan.ahorratela.Activitys.buttonClickInterface;
 import com.example.juan.ahorratela.Adapters.ComprasLugaresAdapter;
-import com.example.juan.ahorratela.DB.ComprasDB;
-import com.example.juan.ahorratela.DB.LugaresDB;
+import com.example.juan.ahorratela.Adapters.ComprasProductosAdapter;
+import com.example.juan.ahorratela.DB.AhorratelaDB;
 import com.example.juan.ahorratela.Modelos.LugaresModel;
+import com.example.juan.ahorratela.Modelos.ProductosModel;
 import com.example.juan.ahorratela.R;
 
 import java.util.ArrayList;
@@ -36,51 +33,41 @@ import java.util.ArrayList;
  * {@link ComprasFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link ComprasFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * createLugar an instance of this fragment.
  */
 
 public class ComprasFragment extends Fragment implements buttonClickInterface {
     Dialog dialog;
     View v;
-    ComprasDB comprasDB;
+
     ComprasLugaresAdapter comprasLugaresAdapter;
+    ComprasProductosAdapter comprasProductosAdapter;
+
     ArrayList<LugaresModel> lugares;
+    ArrayList<ProductosModel> productos;
+
     LugaresModel lugar;
+    ProductosModel producto;
+
     LinearLayoutManager llm;
     EditText editTextLugar;
+    EditText editTextProducto;
     RecyclerView lista;
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
-    RecyclerView rv;
-    Context context;
     FloatingActionButton buttonA;
-    LugaresDB lugaresDB;
+    AhorratelaDB ahorratelaDB;
     InputMethodManager imm;
     buttonClickInterface buttonClickInterface;
+
+    private OnFragmentInteractionListener mListener;
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+    private String mParam1;
+    private String mParam2;
 
     public ComprasFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ComprasFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static ComprasFragment newInstance(String param1, String param2) {
         ComprasFragment fragment = new ComprasFragment();
         Bundle args = new Bundle();
@@ -120,7 +107,7 @@ public class ComprasFragment extends Fragment implements buttonClickInterface {
         return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    // TODO: Rename method, updateLugar argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -145,7 +132,7 @@ public class ComprasFragment extends Fragment implements buttonClickInterface {
     }
 
     @Override
-    public void click(LugaresModel lugar) {
+    public void lugar(LugaresModel lugar) {
         this.lugar = lugar;
         editTextLugar.setText(this.lugar.getNombre().toString());
         lugares = new ArrayList<>();
@@ -153,16 +140,15 @@ public class ComprasFragment extends Fragment implements buttonClickInterface {
         lista.setAdapter(comprasLugaresAdapter);
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+    @Override
+    public void producto(ProductosModel producto) {
+        this.producto = producto;
+        editTextProducto.setText(this.producto.getNombre().toString());
+        productos = new ArrayList<>();
+        comprasProductosAdapter = new ComprasProductosAdapter(productos,getActivity(),buttonClickInterface);
+        lista.setAdapter(comprasProductosAdapter);
+    }
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
@@ -171,12 +157,10 @@ public class ComprasFragment extends Fragment implements buttonClickInterface {
     public void ShowPopup(final View v) {
         dialog.setContentView(R.layout.popup_registrar_compra);
 
-        final EditText editTextProducto;
-
         final EditText editTextPrecio;
         FloatingActionButton buttonGuardar;
         FloatingActionButton buttonCancelar;
-        FloatingActionButton buttonBuscarProducto;
+        final FloatingActionButton buttonBuscarProducto;
         final FloatingActionButton buttonBuscarLugar;
 
         editTextProducto = (EditText) dialog.findViewById(R.id.editTextProducto);
@@ -188,17 +172,34 @@ public class ComprasFragment extends Fragment implements buttonClickInterface {
         buttonBuscarLugar = (FloatingActionButton) dialog.findViewById(R.id.btnBuscarLugar);
         lista = (RecyclerView) dialog.findViewById(R.id.list_item);
 
-        lugaresDB = new LugaresDB(v.getContext());
+        ahorratelaDB = new AhorratelaDB(v.getContext());
         llm = new LinearLayoutManager(v.getContext());
         lista.setLayoutManager(llm);
+
+        buttonBuscarProducto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                productos = ahorratelaDB.getProductoByNombre(editTextProducto.getText().toString());
+                comprasProductosAdapter = new ComprasProductosAdapter(productos, getActivity(), buttonClickInterface);
+                lista.setAdapter(comprasProductosAdapter);
+                imm.hideSoftInputFromWindow(buttonBuscarProducto.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        });
 
         buttonBuscarLugar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                lugares = lugaresDB.getOneNombre(editTextLugar.getText().toString());
+                lugares = ahorratelaDB.getLugarByNombre(editTextLugar.getText().toString());
                 comprasLugaresAdapter = new ComprasLugaresAdapter(lugares, getActivity(), buttonClickInterface);
                 lista.setAdapter(comprasLugaresAdapter);
                 imm.hideSoftInputFromWindow(buttonBuscarLugar.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        });
+
+        buttonGuardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
             }
         });
 

@@ -4,13 +4,13 @@ package com.example.juan.ahorratela.Modelos;
  * Created by MattSeidel on 28/09/18.
  */
 
-public class Compra {
+public class ComprasModel {
 
     private int id;
     private int id_producto;
     private int id_ubicacion;
 
-    public Compra(int producto, int ubicacion) {
+    public ComprasModel(int producto, int ubicacion) {
         this.id_producto = producto;
         this.id_ubicacion = ubicacion;
     }

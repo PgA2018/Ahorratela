@@ -7,9 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.juan.ahorratela.DB.LugaresDB;
-import com.example.juan.ahorratela.Modelos.Compra;
-import com.example.juan.ahorratela.Activitys.buttonClickInterface;
+import com.example.juan.ahorratela.DB.AhorratelaDB;
+import com.example.juan.ahorratela.Modelos.ComprasModel;
 import com.example.juan.ahorratela.R;
 
 import java.util.List;
@@ -19,13 +18,13 @@ import java.util.List;
  */
 
 public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresViewHolder>{
-    List<Compra> compraList;
+    List<ComprasModel> compraList;
     Context context;
     String plato;
-    LugaresDB lugaresDB;
+    AhorratelaDB lugaresDB;
 
 
-    public ComprasAdapter(List<Compra> compraList) {
+    public ComprasAdapter(List<ComprasModel> compraList) {
         this.compraList = compraList;
     }
 
@@ -39,7 +38,7 @@ public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresV
 
     @Override
     public void onBindViewHolder(LugaresViewHolder holder, int position) {
-        Compra lugares = compraList.get(position);
+        ComprasModel lugares = compraList.get(position);
         holder.id.setText(lugares.getId());
         holder.producto.setText(lugares.getId_producto());
         holder.valor.setText(lugares.getId_ubicacion());

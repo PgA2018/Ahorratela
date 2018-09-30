@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.juan.ahorratela.Activitys.buttonClickInterface;
 import com.example.juan.ahorratela.DB.AhorratelaDB;
-import com.example.juan.ahorratela.Modelos.LugaresModel;
+import com.example.juan.ahorratela.Modelos.ProductosModel;
 import com.example.juan.ahorratela.R;
 
 import java.util.List;
@@ -20,22 +20,22 @@ import java.util.List;
  * Created by juan on 05/12/2017.
  */
 
-public class ComprasLugaresAdapter extends RecyclerView.Adapter<ComprasLugaresAdapter.LugaresViewHolder>{
-    List<LugaresModel> lugaresList;
+public class ComprasProductosAdapter extends RecyclerView.Adapter<ComprasProductosAdapter.LugaresViewHolder>{
+    List<ProductosModel> productosList;
     Context context;
-    AhorratelaDB ahorratelaDB;
+    AhorratelaDB lugaresDB;
     FragmentActivity fragmentActivity;
     buttonClickInterface buttonClickInterface;
 
-    public ComprasLugaresAdapter(List<LugaresModel> lugaresList, FragmentActivity fragmentActivity, buttonClickInterface buttonClickInterface) {
-        this.lugaresList = lugaresList;
+    public ComprasProductosAdapter(List<ProductosModel> productosList, FragmentActivity fragmentActivity, buttonClickInterface buttonClickInterface) {
+        this.productosList = productosList;
         this.fragmentActivity = fragmentActivity;
         this.buttonClickInterface = buttonClickInterface;
     }
 
     @Override
     public LugaresViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_compras_lugares, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_compras_productos, parent, false);
         LugaresViewHolder lugaresViewHolder = new LugaresViewHolder(v);
         context = v.getContext();
         return lugaresViewHolder;
@@ -43,37 +43,33 @@ public class ComprasLugaresAdapter extends RecyclerView.Adapter<ComprasLugaresAd
 
     @Override
     public void onBindViewHolder(LugaresViewHolder holder, int position) {
-        LugaresModel lugares = lugaresList.get(position);
-        holder.id.setText(lugares.getId().toString());
-        holder.nombre.setText(lugares.getNombre());
-        holder.ubicacion.setText(lugares.getUbicacion());
+        ProductosModel productos = productosList.get(position);
+        holder.id.setText(productos.getId().toString());
+        holder.nombre.setText(productos.getNombre());
     }
 
     @Override
     public int getItemCount() {
-        return lugaresList.size();
+        return productosList.size();
     }
 
     public class LugaresViewHolder extends RecyclerView.ViewHolder{
         TextView id;
         TextView nombre;
-        TextView ubicacion;
-        FloatingActionButton agregarLugar;
+        FloatingActionButton agregarProducto;
 
         public LugaresViewHolder(final View itemView) {
             super(itemView);
-            id = (TextView) itemView.findViewById(R.id.idLugar);
-            nombre = (TextView) itemView.findViewById(R.id.nombreLugar);
-            ubicacion = (TextView) itemView.findViewById(R.id.ubicacionLugar);
-            agregarLugar = (FloatingActionButton) itemView.findViewById(R.id.eliminarLugar);
+            id = (TextView) itemView.findViewById(R.id.idProducto);
+            nombre = (TextView) itemView.findViewById(R.id.nombreProducto);
+            agregarProducto = (FloatingActionButton) itemView.findViewById(R.id.eliminarProducto);
 
-            agregarLugar.setOnClickListener(new View.OnClickListener() {
+            agregarProducto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    buttonClickInterface.lugar(new LugaresModel(
+                    buttonClickInterface.producto(new ProductosModel(
                             Integer.parseInt(id.getText().toString()),
-                            nombre.getText().toString(),
-                            ubicacion.getText().toString()));
+                            nombre.getText().toString()));
                     //((Global) fragmentActivity.getApplication()).setLugar(new LugaresModel(1,nombre.getText().toString(),ubicacion.getText().toString()));
                 }
             });

@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/lugares_dw">
 
-
         <EditText
             android:id="@+id/editTextProducto"
             android:hint="Ingrese el nombre del producto a buscar"
