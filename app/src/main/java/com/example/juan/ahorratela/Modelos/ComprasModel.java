@@ -9,10 +9,18 @@ public class ComprasModel {
     private int id;
     private int id_producto;
     private int id_ubicacion;
+    private int valor_compra;
+    private int valor_ahorro;
 
     public ComprasModel(int producto, int ubicacion) {
         this.id_producto = producto;
         this.id_ubicacion = ubicacion;
+    }
+
+    public ComprasModel(int id_producto, int id_ubicacion, int valor_compra) {
+        this.id_producto = id_producto;
+        this.id_ubicacion = id_ubicacion;
+        this.valor_compra = valor_compra;
     }
 
     public int getId() {
