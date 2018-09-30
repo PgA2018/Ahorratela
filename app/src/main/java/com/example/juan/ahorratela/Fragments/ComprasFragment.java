@@ -15,11 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.juan.ahorratela.Activitys.buttonClickInterface;
+import com.example.juan.ahorratela.Adapters.ComprasAdapter;
 import com.example.juan.ahorratela.Adapters.ComprasLugaresAdapter;
 import com.example.juan.ahorratela.Adapters.ComprasProductosAdapter;
 import com.example.juan.ahorratela.DB.AhorratelaDB;
+import com.example.juan.ahorratela.Modelos.ComprasModel;
 import com.example.juan.ahorratela.Modelos.LugaresModel;
 import com.example.juan.ahorratela.Modelos.ProductosModel;
 import com.example.juan.ahorratela.R;
@@ -42,9 +45,11 @@ public class ComprasFragment extends Fragment implements buttonClickInterface {
 
     ComprasLugaresAdapter comprasLugaresAdapter;
     ComprasProductosAdapter comprasProductosAdapter;
+    ComprasAdapter comprasAdapter;
 
     ArrayList<LugaresModel> lugares;
     ArrayList<ProductosModel> productos;
+    ArrayList<ComprasModel> compras = new ArrayList<>();
 
     LugaresModel lugar;
     ProductosModel producto;
@@ -53,6 +58,7 @@ public class ComprasFragment extends Fragment implements buttonClickInterface {
     EditText editTextLugar;
     EditText editTextProducto;
     RecyclerView lista;
+    RecyclerView compras_list;
     FloatingActionButton buttonA;
     AhorratelaDB ahorratelaDB;
     InputMethodManager imm;
@@ -102,6 +108,9 @@ public class ComprasFragment extends Fragment implements buttonClickInterface {
 
         imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 
+        compras_list = (RecyclerView) v.findViewById(R.id.compras_list);
+        compras_list.setLayoutManager(new LinearLayoutManager(v.getContext()));
+
         buttonClickInterface = this;
 
         return v;
@@ -147,6 +156,13 @@ public class ComprasFragment extends Fragment implements buttonClickInterface {
         productos = new ArrayList<>();
         comprasProductosAdapter = new ComprasProductosAdapter(productos,getActivity(),buttonClickInterface);
         lista.setAdapter(comprasProductosAdapter);
+    }
+
+    @Override
+    public void compra(ComprasModel compra) {
+        /*compras.add(compra);
+        comprasAdapter = new ComprasAdapter(compras);
+        compras_list.setAdapter(comprasAdapter);*/
     }
 
     public interface OnFragmentInteractionListener {
@@ -199,7 +215,13 @@ public class ComprasFragment extends Fragment implements buttonClickInterface {
         buttonGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+                compras.add(new ComprasModel(
+                        producto.getId(),
+                        lugar.getId()));
+
+                comprasAdapter = new ComprasAdapter(compras);
+                compras_list.setAdapter(comprasAdapter);
+                dialog.dismiss();
             }
         });
 
