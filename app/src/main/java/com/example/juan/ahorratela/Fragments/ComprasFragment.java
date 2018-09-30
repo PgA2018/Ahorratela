@@ -111,6 +111,9 @@ public class ComprasFragment extends Fragment implements buttonClickInterface {
         compras_list = (RecyclerView) v.findViewById(R.id.compras_list);
         compras_list.setLayoutManager(new LinearLayoutManager(v.getContext()));
 
+        comprasAdapter = new ComprasAdapter(compras);
+        compras_list.setAdapter(comprasAdapter);
+
         buttonClickInterface = this;
 
         return v;
