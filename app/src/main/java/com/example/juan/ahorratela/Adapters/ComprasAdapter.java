@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.juan.ahorratela.DB.AhorratelaDB;
@@ -38,8 +39,9 @@ public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresV
     @Override
     public void onBindViewHolder(LugaresViewHolder holder, int position) {
         ComprasModel compra = compraList.get(position);
-        holder.id_producto.setText(""+compra.getId_producto());
-        holder.valor.setText(""+compra.getId_ubicacion());
+        holder.id_producto.setText(compra.getNombre_producto());
+        holder.valor.setText("$ "+compra.getValor_compra());
+        holder.icono.setImageResource(R.drawable.ic_happy);
     }
 
     @Override
@@ -50,11 +52,13 @@ public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresV
     public class LugaresViewHolder extends RecyclerView.ViewHolder{
         TextView id_producto;
         TextView valor;
+        ImageView icono;
 
         public LugaresViewHolder(final View itemView) {
             super(itemView);
             id_producto = (TextView) itemView.findViewById(R.id.producto_name);
             valor = (TextView) itemView.findViewById(R.id.producto_value);
+            icono = (ImageView) itemView.findViewById(R.id.icono);
         }
     }
 }

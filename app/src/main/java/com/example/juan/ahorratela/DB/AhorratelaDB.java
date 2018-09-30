@@ -140,6 +140,33 @@ public class AhorratelaDB extends SQLiteOpenHelper{
         return lugar;
     }
 
+    public LugaresModel getLugarByNombreBool(String nombre) {
+
+        LugaresModel lugar = null;
+
+        SQLiteDatabase db = getReadableDatabase();
+        if (db != null) {
+
+            String q = "SELECT * FROM " + TABLE_LUGARES + " WHERE " + NOMBRE + " = '"+ nombre +"'";
+            try {
+                Cursor c = db.rawQuery(q, null);
+                lugar = null;
+                while (c.moveToNext()) {
+                    lugar = new LugaresModel(
+                            c.getInt(0),
+                            c.getString(1),
+                            c.getString(2)
+                    );
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            db.close();
+        }
+
+        return lugar;
+    }
+
     public ArrayList<LugaresModel> getLugarByNombre(String nombre) {
 
         ArrayList<LugaresModel> array = new ArrayList<LugaresModel>();
@@ -280,6 +307,32 @@ public class AhorratelaDB extends SQLiteOpenHelper{
         if (db != null) {
 
             String q = "SELECT * FROM " + TABLE_PRODUCTOS + " WHERE " + ID + " = '"+ id +"'";
+            try {
+                Cursor c = db.rawQuery(q, null);
+                producto = null;
+                while (c.moveToNext()) {
+                    producto = new ProductosModel(
+                            c.getInt(0),
+                            c.getString(1)
+                    );
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            db.close();
+        }
+
+        return producto;
+    }
+
+    public ProductosModel getProductoByNombreBool(String nombre) {
+
+        ProductosModel producto = null;
+
+        SQLiteDatabase db = getReadableDatabase();
+        if (db != null) {
+
+            String q = "SELECT * FROM " + TABLE_PRODUCTOS + " WHERE " + NOMBRE + " = '"+ nombre +"'";
             try {
                 Cursor c = db.rawQuery(q, null);
                 producto = null;
