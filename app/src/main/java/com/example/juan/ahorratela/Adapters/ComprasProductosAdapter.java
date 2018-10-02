@@ -46,6 +46,7 @@ public class ComprasProductosAdapter extends RecyclerView.Adapter<ComprasProduct
         ProductosModel productos = productosList.get(position);
         holder.id.setText(productos.getId().toString());
         holder.nombre.setText(productos.getNombre());
+        holder.descripcion.setText(productos.getPresentacion()+" "+productos.getMedida()+" "+productos.getUnidad());
     }
 
     @Override
@@ -56,12 +57,14 @@ public class ComprasProductosAdapter extends RecyclerView.Adapter<ComprasProduct
     public class LugaresViewHolder extends RecyclerView.ViewHolder{
         TextView id;
         TextView nombre;
+        TextView descripcion;
         FloatingActionButton agregarProducto;
 
         public LugaresViewHolder(final View itemView) {
             super(itemView);
             id = (TextView) itemView.findViewById(R.id.idProducto);
             nombre = (TextView) itemView.findViewById(R.id.nombreProducto);
+            descripcion = (TextView) itemView.findViewById(R.id.descripcionProducto);
             agregarProducto = (FloatingActionButton) itemView.findViewById(R.id.eliminarProducto);
 
             agregarProducto.setOnClickListener(new View.OnClickListener() {

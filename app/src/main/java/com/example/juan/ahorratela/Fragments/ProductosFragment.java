@@ -34,7 +34,7 @@ public class ProductosFragment extends Fragment {
     FloatingActionButton buttonAdd;
     ArrayList<ProductosModel> productos = new ArrayList<>();
     ArrayList<PresentacionesModel> presentaciones;
-    ArrayList<PresentacionesModel> unidades;
+    ArrayList<UnidadModel> unidades;
     ProductosAdapter productosAdapter;
     LinearLayoutManager llm;
     Dialog dialog;
@@ -78,22 +78,11 @@ public class ProductosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_productos, container, false);
 
-        ahorratelaDB = new AhorratelaDB(getContext());
+        ahorratelaDB = new AhorratelaDB(v.getContext());
 
         productos = ahorratelaDB.getAllProductos();
-
-        ahorratelaDB.deleteAllPresentaciones();
-        ahorratelaDB.createPresentacion("Paquete");
-        ahorratelaDB.createPresentacion("Bolsa");
-        ahorratelaDB.createPresentacion("Caja");
-
-        ahorratelaDB.deleteAllPresentaciones1();
-        ahorratelaDB.createPresentacion1("mg");
-        ahorratelaDB.createPresentacion1("kg");
-        ahorratelaDB.createPresentacion1("litro");
-
         presentaciones = ahorratelaDB.getAllPresentaciones();
-        unidades = ahorratelaDB.getAllPresentaciones1();
+        unidades = ahorratelaDB.getAllUnidades();
 
         buttonAdd = (FloatingActionButton) v.findViewById(R.id.addProducto);
         buttonAdd.setOnClickListener(new View.OnClickListener() {
@@ -146,13 +135,15 @@ public class ProductosFragment extends Fragment {
 
     public void ShowPopup(View v) {
         final EditText editTextNombre;
+        final EditText editTextMedida;
         FloatingActionButton buttonGuardar;
         FloatingActionButton buttonCancelar;
-        Spinner spinnerPresentaciones;
-        Spinner spinnerUnidades;
+        final Spinner spinnerPresentaciones;
+        final Spinner spinnerUnidades;
         dialog.setContentView(R.layout.popup_registrar_productos);
 
         editTextNombre = (EditText) dialog.findViewById(R.id.editTextNombrePro);
+        editTextMedida = (EditText) dialog.findViewById(R.id.medida);
         buttonGuardar = (FloatingActionButton) dialog.findViewById(R.id.btnGuardarProducto);
         buttonCancelar = (FloatingActionButton) dialog.findViewById(R.id.btnCancelarProducto);
         spinnerPresentaciones = (Spinner) dialog.findViewById(R.id.spinnerPresentaciones);
@@ -161,7 +152,7 @@ public class ProductosFragment extends Fragment {
         //AÑADIENDO DATOS AL SPINNER PRESENTACIONES
         final ArrayList<String> arraySpinnerP = new ArrayList<String>();
         for (int i = 0; i <presentaciones.size(); i++) {
-            arraySpinnerP.add(presentaciones.get(i).getNombre().toString());
+            arraySpinnerP.add(presentaciones.get(i).getNombre());
         }
         ArrayAdapter<String> adapterP = new ArrayAdapter<String>(dialog.getContext(),android.R.layout.simple_spinner_item,arraySpinnerP);
         adapterP.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -170,20 +161,22 @@ public class ProductosFragment extends Fragment {
         //AÑADIENDO DATOS AL SPINNER UNIDADES
         final ArrayList<String> arraySpinnerU = new ArrayList<String>();
         for (int i = 0; i <unidades.size(); i++) {
-            arraySpinnerU.add(unidades.get(i).getNombre().toString());
+            arraySpinnerU.add(unidades.get(i).getNombre());
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(dialog.getContext(),android.R.layout.simple_spinner_item,arraySpinnerU);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerUnidades.setAdapter(adapter);
-
+        ArrayAdapter<String> adapterU = new ArrayAdapter<String>(dialog.getContext(),android.R.layout.simple_spinner_item,arraySpinnerU);
+        adapterU.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerUnidades.setAdapter(adapterU);
 
         buttonGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(validarTexto(editTextNombre.getText().toString())){
+                if(validarTexto(editTextNombre.getText().toString()) && validarTexto(editTextMedida.getText().toString())){
                     boolean bool = ahorratelaDB.createProducto(new ProductosModel(
                             1,
-                            editTextNombre.getText().toString())
+                            editTextNombre.getText().toString(),
+                            spinnerPresentaciones.getSelectedItem().toString(),
+                            spinnerUnidades.getSelectedItem().toString(),
+                            Integer.parseInt(editTextMedida.getText().toString()))
                     );
                     if(bool){
                         productos = ahorratelaDB.getAllProductos();

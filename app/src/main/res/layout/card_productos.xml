@@ -23,6 +23,19 @@
         android:padding="3dp"/>
 
     <TextView
+        android:id="@+id/descripcionProducto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/nombreProducto"
+        android:layout_margin="10px"
+        android:layout_marginLeft="10px"
+        android:paddingLeft="3dp"
+        android:text="Descripción del producto"
+        android:textColor="@color/colorGrayText"
+        android:textSize="12sp" />
+
+    <TextView
         android:id="@+id/idProducto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

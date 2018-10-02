@@ -20,76 +20,84 @@ import java.util.ArrayList;
 public class AhorratelaDB extends SQLiteOpenHelper{
     Context context;
 
-    String STRING_TYPE = "text";
-    String INT_TYPE = "integer";
-    String BOOLEAN_TYPE = "boolean";
+    static String STRING_TYPE = "text";
+    static String INT_TYPE = "integer";
+    static String BOOLEAN_TYPE = "boolean";
 
-    String TABLE_LUGARES = "Lugares";
-    String TABLE_PRODUCTOS = "Productos";
-    String TABLE_COMPRAS = "Compras";
-    String TABLE_PRESENTACIONES = "Presentaciones";
-    String TABLE_PRESENTACIONES1 = "Presentaciones1";
+    static String TABLE_LUGARES = "Lugares";
+    static String TABLE_PRODUCTOS = "Productos";
+    static String TABLE_COMPRAS = "Compras";
+    static String TABLE_UNIDAD = "Unidad";
+    static String TABLE_PRESENTACIONES = "Presentaciones";
 
 
-    String ID = "id";
-    String NOMBRE = "nombre";
-    String UBICACION = "ubicacion";
-    String ID_PRODUCTO = "id_producto";
-    String ID_UBICACION = "id_ubicacion";
+    static String ID = "id";
+    static String NOMBRE = "nombre";
+    static String UBICACION = "ubicacion";
+    static String ID_PRODUCTO = "id_producto";
+    static String ID_UBICACION = "id_ubicacion";
+    static String ID_PRESENTACION = "id_presentacion";
+    static String ID_UNIDAD = "id_unidad";
+    static String MEDIDA = "medida";
 
-    private final String CREATE_TABLE_LUGARES = "CREATE TABLE " + TABLE_LUGARES + " ("
+    private static final String CREATE_TABLE_LUGARES = "CREATE TABLE " + TABLE_LUGARES + " ("
             +ID+" "+INT_TYPE+" PRIMARY KEY, "
             +NOMBRE+" "+STRING_TYPE+" NOT NULL, "
             +UBICACION+" "+STRING_TYPE+" NOT NULL) ";
 
-    private final String CREATE_TABLE_PRODUCTOS = "CREATE TABLE " + TABLE_PRODUCTOS + " ("
+    private static final String CREATE_TABLE_PRODUCTOS = "CREATE TABLE " + TABLE_PRODUCTOS + " ("
             +ID+" "+INT_TYPE+" PRIMARY KEY, "
-            +NOMBRE+" "+STRING_TYPE+" NOT NULL) ";
+            +NOMBRE+" "+STRING_TYPE+" NOT NULL,"
+            +ID_PRESENTACION+" "+STRING_TYPE+","
+            +ID_UNIDAD+" "+STRING_TYPE+","
+            +MEDIDA+" "+INT_TYPE+") ";
 
-    private final String CREATE_TABLE_COMPRAS = "CREATE TABLE " + TABLE_COMPRAS + " ("
+    private static final String CREATE_TABLE_COMPRAS = "CREATE TABLE " + TABLE_COMPRAS + " ("
             +ID+" "+INT_TYPE+" PRIMARY KEY, "
             + ID_PRODUCTO +" "+STRING_TYPE+" NOT NULL, "
             + ID_UBICACION +" "+STRING_TYPE+" NOT NULL) ";
 
-    private final String CREATE_TABLE_PRESENTACIONES = "CREATE TABLE " + TABLE_PRESENTACIONES + " ("
+    private static final String CREATE_TABLE_UNIDAD = "CREATE TABLE " + TABLE_UNIDAD + " ("
             +ID+" "+INT_TYPE+" PRIMARY KEY, "
-            +NOMBRE+" "+STRING_TYPE+" NOT NULL)";
+            + NOMBRE +" "+STRING_TYPE+" NOT NULL) ";
 
-    private final String CREATE_TABLE_PRESENTACIONES1 = "CREATE TABLE " + TABLE_PRESENTACIONES1 + " ("
+    private static final String CREATE_TABLE_PRESENTACIONES = "CREATE TABLE " + TABLE_PRESENTACIONES + " ("
             +ID+" "+INT_TYPE+" PRIMARY KEY, "
             +NOMBRE+" "+STRING_TYPE+" NOT NULL)";
 
     public AhorratelaDB(Context context) {
-        super(context, "AhorratelaDB",null,1);
+        super(context, "ahorratela.db",null,1);
         this.context = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(CREATE_TABLE_PRESENTACIONES1);
-        sqLiteDatabase.execSQL(CREATE_TABLE_LUGARES);
-        sqLiteDatabase.execSQL(CREATE_TABLE_PRODUCTOS);
-        sqLiteDatabase.execSQL(CREATE_TABLE_COMPRAS);
-        sqLiteDatabase.execSQL(CREATE_TABLE_PRESENTACIONES);
-
+        try {
+            sqLiteDatabase.execSQL(CREATE_TABLE_LUGARES);
+            sqLiteDatabase.execSQL(CREATE_TABLE_PRODUCTOS);
+            sqLiteDatabase.execSQL(CREATE_TABLE_COMPRAS);
+            sqLiteDatabase.execSQL(CREATE_TABLE_UNIDAD);
+            sqLiteDatabase.execSQL(CREATE_TABLE_PRESENTACIONES);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXIST " + TABLE_PRESENTACIONES1);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXIST " + TABLE_LUGARES);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXIST " + TABLE_PRODUCTOS);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXIST " + TABLE_COMPRAS);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXIST " + TABLE_PRESENTACIONES);
-
-
-        sqLiteDatabase.execSQL(CREATE_TABLE_PRESENTACIONES1);
-        sqLiteDatabase.execSQL(CREATE_TABLE_LUGARES);
-        sqLiteDatabase.execSQL(CREATE_TABLE_PRODUCTOS);
-        sqLiteDatabase.execSQL(CREATE_TABLE_COMPRAS);
-        sqLiteDatabase.execSQL(CREATE_TABLE_PRESENTACIONES);
-
+        try {
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_LUGARES);
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTOS);
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_COMPRAS);
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_UNIDAD);
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PRESENTACIONES);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        onCreate(sqLiteDatabase);
     }
+
+    //LUGARES
 
     public boolean createLugar(LugaresModel lugar) {
         boolean ret = false;
@@ -278,13 +286,15 @@ public class AhorratelaDB extends SQLiteOpenHelper{
         return ret;
     }
 
+    //PRODUCTOS
+
     public boolean createProducto(ProductosModel producto) {
         boolean ret = false;
 
         SQLiteDatabase db = getWritableDatabase();
         if (db != null) {
             try {
-                String q = "INSERT INTO " + TABLE_PRODUCTOS + " (" + NOMBRE + ") " + "VALUES('"+producto.getNombre().toString()+"')";
+                String q = "INSERT INTO " + TABLE_PRODUCTOS + " ("+NOMBRE+","+ID_PRESENTACION+","+ID_UNIDAD+","+MEDIDA+") " + "VALUES("+"'"+producto.getNombre()+"','"+producto.getPresentacion()+"','"+producto.getUnidad()+"',"+producto.getMedida()+")";
                 db.execSQL(q);
                 ret = true;
             } catch (Exception e) {
@@ -310,7 +320,10 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                 while (c.moveToNext()) {
                     producto = new ProductosModel(
                             c.getInt(0),
-                            c.getString(1)
+                            c.getString(1),
+                            c.getString(2),
+                            c.getString(3),
+                            c.getInt(4)
                     );
                     array.add(producto);
                 }
@@ -388,7 +401,10 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                 while (c.moveToNext()) {
                     producto = new ProductosModel(
                             c.getInt(0),
-                            c.getString(1)
+                            c.getString(1),
+                            c.getString(2),
+                            c.getString(3),
+                            c.getInt(4)
                     );
                     array.add(producto);
                 }
@@ -457,6 +473,8 @@ public class AhorratelaDB extends SQLiteOpenHelper{
         }
         return ret;
     }
+
+    //COMPRAS
 
     public boolean createCompra(ComprasModel comprasModel) {
         boolean ret = false;
@@ -588,6 +606,68 @@ public class AhorratelaDB extends SQLiteOpenHelper{
         return ret;
     }
 
+    //UNIDAD
+
+    public boolean createUnidad(String unidad) {
+        boolean ret = false;
+
+        SQLiteDatabase db = getWritableDatabase();
+        if (db != null) {
+            try {
+                String q = "INSERT INTO " + TABLE_UNIDAD + " (" + NOMBRE + ") " + "VALUES(" + "'" + unidad+ "')";
+                db.execSQL(q);
+                ret = true;
+            } catch (Exception e) {
+                e.getStackTrace();
+                return false;
+            }
+            db.close();
+        }
+        return ret;
+    }
+
+    public ArrayList<UnidadModel> getAllUnidades() {
+
+        ArrayList<UnidadModel> array = new ArrayList<UnidadModel>();
+
+        SQLiteDatabase db = getReadableDatabase();
+        if (db != null) {
+
+            String q = "SELECT * FROM " + TABLE_UNIDAD+";";
+            try {
+                Cursor c = db.rawQuery(q, null);
+                UnidadModel unidadModel = null;
+                while (c.moveToNext()) {
+                    unidadModel = new UnidadModel(
+                            c.getInt(0),
+                            c.getString(1)
+                    );
+                    array.add(unidadModel);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            db.close();
+        }
+        return array;
+    }
+
+    public void deleteAllUnidades(){
+
+        SQLiteDatabase db = getWritableDatabase();
+        if(db != null) {
+            try {
+                String q = "DELETE FROM " + TABLE_UNIDAD;
+                db.execSQL(q);
+            } catch (Exception e) {
+                e.getStackTrace();
+            }
+            db.close();
+        }
+    }
+
+    //PRESENTACIONES
+
     public boolean createPresentacion(String presentacion) {
         boolean ret = false;
         SQLiteDatabase db = getWritableDatabase();
@@ -645,61 +725,6 @@ public class AhorratelaDB extends SQLiteOpenHelper{
         }
     }
 
-    public boolean createPresentacion1(String presentacion) {
-        boolean ret = false;
-        SQLiteDatabase db = getWritableDatabase();
-        if (db != null) {
-            try {
-                String q = "INSERT INTO " + TABLE_PRESENTACIONES1 + " (" + NOMBRE + ") " + "VALUES(" + "'" + presentacion+"')";
-                db.execSQL(q);
-                ret = true;
-            } catch (Exception e) {
-                e.getStackTrace();
-                return false;
-            }
-            db.close();
-        }
-        return ret;
-    }
 
-    public ArrayList<PresentacionesModel> getAllPresentaciones1() {
-
-        ArrayList<PresentacionesModel> array = new ArrayList<PresentacionesModel>();
-
-        SQLiteDatabase db = getReadableDatabase();
-        if (db != null) {
-
-            String q = "SELECT * FROM " + TABLE_PRESENTACIONES1;
-            try {
-                Cursor c = db.rawQuery(q, null);
-                PresentacionesModel presentaciones = null;
-                while (c.moveToNext()) {
-                    presentaciones = new PresentacionesModel(
-                            c.getInt(0),
-                            c.getString(1)
-                    );
-                    array.add(presentaciones);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            db.close();
-        }
-        return array;
-    }
-
-    public void deleteAllPresentaciones1(){
-
-        SQLiteDatabase db = getWritableDatabase();
-        if(db != null) {
-            try {
-                String q = "DELETE FROM " + TABLE_PRESENTACIONES1;
-                db.execSQL(q);
-            } catch (Exception e) {
-                e.getStackTrace();
-            }
-            db.close();
-        }
-    }
 
 }

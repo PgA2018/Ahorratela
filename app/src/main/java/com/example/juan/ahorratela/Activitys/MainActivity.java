@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
+import com.example.juan.ahorratela.DB.AhorratelaDB;
 import com.example.juan.ahorratela.Fragments.ComprasFragment;
 import com.example.juan.ahorratela.Fragments.LugaresFragment;
 import com.example.juan.ahorratela.Fragments.ProductosFragment;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     ComprasFragment comprasFragment = new ComprasFragment();
     ProductosFragment productosFragment = new ProductosFragment();
     android.support.v7.widget.Toolbar toolbar;
+    AhorratelaDB ahorratelaDB;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -64,6 +66,19 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ahorratelaDB = new AhorratelaDB(getApplicationContext());
+
+        ahorratelaDB.deleteAllUnidades();
+        ahorratelaDB.deleteAllPresentaciones();
+
+        ahorratelaDB.createPresentacion("Bolsa");
+        ahorratelaDB.createPresentacion("Botella");
+        ahorratelaDB.createPresentacion("Paquete");
+
+        ahorratelaDB.createUnidad("Kg");
+        ahorratelaDB.createUnidad("mg");
+        ahorratelaDB.createUnidad("ml");
     }
 
     @Override

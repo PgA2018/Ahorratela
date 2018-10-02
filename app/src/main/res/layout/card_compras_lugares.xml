@@ -20,7 +20,7 @@
         android:layout_marginLeft="10px"
         android:paddingLeft="10px"
         android:text="Nombre del lugar"
-        android:textSize="20sp" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/ubicacionLugar"
@@ -33,7 +33,7 @@
         android:paddingLeft="10px"
         android:text="Ubicación del lugar"
         android:textColor="@color/colorGrayText"
-        android:textSize="15sp" />
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/idLugar"
