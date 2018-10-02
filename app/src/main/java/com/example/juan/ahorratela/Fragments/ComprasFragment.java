@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.juan.ahorratela.Activitys.buttonClickInterface;
@@ -179,16 +180,16 @@ public class ComprasFragment extends Fragment implements buttonClickInterface {
         final EditText editTextPrecio;
         FloatingActionButton buttonGuardar;
         FloatingActionButton buttonCancelar;
-        final FloatingActionButton buttonBuscarProducto;
-        final FloatingActionButton buttonBuscarLugar;
+        final ImageView buttonBuscarProducto;
+        final ImageView buttonBuscarLugar;
 
         editTextProducto = (EditText) dialog.findViewById(R.id.editTextProducto);
         editTextLugar = (EditText) dialog.findViewById(R.id.editTextLugar);
         editTextPrecio = (EditText) dialog.findViewById(R.id.editTextPrecio);
         buttonGuardar = (FloatingActionButton) dialog.findViewById(R.id.btnGuardarCompra);
         buttonCancelar = (FloatingActionButton) dialog.findViewById(R.id.btnCancelarCompra);
-        buttonBuscarProducto = (FloatingActionButton) dialog.findViewById(R.id.btnBuscarProducto);
-        buttonBuscarLugar = (FloatingActionButton) dialog.findViewById(R.id.btnBuscarLugar);
+        buttonBuscarProducto = (ImageView) dialog.findViewById(R.id.btnBuscarProducto);
+        buttonBuscarLugar = (ImageView) dialog.findViewById(R.id.btnBuscarLugar);
         lista = (RecyclerView) dialog.findViewById(R.id.list_item);
 
         ahorratelaDB = new AhorratelaDB(v.getContext());

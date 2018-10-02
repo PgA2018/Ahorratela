@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.juan.ahorratela.Activitys.buttonClickInterface;
@@ -58,14 +59,14 @@ public class ComprasProductosAdapter extends RecyclerView.Adapter<ComprasProduct
         TextView id;
         TextView nombre;
         TextView descripcion;
-        FloatingActionButton agregarProducto;
+        RelativeLayout agregarProducto;
 
         public LugaresViewHolder(final View itemView) {
             super(itemView);
             id = (TextView) itemView.findViewById(R.id.idProducto);
             nombre = (TextView) itemView.findViewById(R.id.nombreProducto);
             descripcion = (TextView) itemView.findViewById(R.id.descripcionProducto);
-            agregarProducto = (FloatingActionButton) itemView.findViewById(R.id.eliminarProducto);
+            agregarProducto = (RelativeLayout) itemView.findViewById(R.id.productosComprasLayout);
 
             agregarProducto.setOnClickListener(new View.OnClickListener() {
                 @Override

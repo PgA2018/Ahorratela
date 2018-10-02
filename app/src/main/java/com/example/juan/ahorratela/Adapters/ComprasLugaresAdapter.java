@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.juan.ahorratela.Activitys.buttonClickInterface;
@@ -58,14 +59,14 @@ public class ComprasLugaresAdapter extends RecyclerView.Adapter<ComprasLugaresAd
         TextView id;
         TextView nombre;
         TextView ubicacion;
-        FloatingActionButton agregarLugar;
+        RelativeLayout agregarLugar;
 
         public LugaresViewHolder(final View itemView) {
             super(itemView);
             id = (TextView) itemView.findViewById(R.id.idLugar);
             nombre = (TextView) itemView.findViewById(R.id.nombreLugar);
             ubicacion = (TextView) itemView.findViewById(R.id.ubicacionLugar);
-            agregarLugar = (FloatingActionButton) itemView.findViewById(R.id.eliminarLugar);
+            agregarLugar = (RelativeLayout) itemView.findViewById(R.id.lugaresComprasLayout);
 
             agregarLugar.setOnClickListener(new View.OnClickListener() {
                 @Override

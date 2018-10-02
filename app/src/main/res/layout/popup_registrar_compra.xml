@@ -25,7 +25,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"/>
-                <android.support.design.widget.FloatingActionButton
+                <ImageView
                     android:id="@+id/btnBuscarProducto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"/>
-                <android.support.design.widget.FloatingActionButton
+                <ImageView
                     android:id="@+id/btnBuscarLugar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
