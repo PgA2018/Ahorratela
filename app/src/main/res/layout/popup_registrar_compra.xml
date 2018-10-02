@@ -16,41 +16,46 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"/>
-        <EditText
-            android:id="@+id/editTextProducto"
-            android:hint="Ingrese el nombre del producto a buscar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_gravity="center"/>
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btnBuscarProducto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="40px"
-            android:layout_marginRight="50px"
-            android:src="@drawable/ic_search"
-            android:layout_alignParentRight="true"
-            android:layout_gravity="center"/>
-        <EditText
-            android:id="@+id/editTextLugar"
-            android:hint="Ingrese el nombre del lugar a buscar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btnBuscarLugar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="40px"
-            android:layout_marginRight="50px"
-            android:src="@drawable/ic_search"
-            android:layout_gravity="center"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/editTextProducto"
+                    android:hint="Ingrese el nombre del producto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"/>
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/btnBuscarProducto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10sp"
+                    android:src="@drawable/ic_search"
+                    android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/editTextLugar"
+                    android:hint="Ingrese el nombre del lugar        "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"/>
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/btnBuscarLugar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10sp"
+                    android:src="@drawable/ic_search"
+                    android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+
         <EditText
             android:id="@+id/editTextPrecio"
-            android:hint="Ingrese el valor del producto"
-            android:layout_width="wrap_content"
+            android:hint="Valor del producto"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:inputType="number"/>
