@@ -13,11 +13,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 import com.example.juan.ahorratela.Adapters.ProductosAdapter;
 import com.example.juan.ahorratela.DB.AhorratelaDB;
+import com.example.juan.ahorratela.Modelos.PresentacionesModel;
 import com.example.juan.ahorratela.Modelos.ProductosModel;
+import com.example.juan.ahorratela.Modelos.UnidadModel;
 import com.example.juan.ahorratela.R;
 
 import java.util.ArrayList;
@@ -28,6 +33,8 @@ public class ProductosFragment extends Fragment {
     View v;
     FloatingActionButton buttonAdd;
     ArrayList<ProductosModel> productos = new ArrayList<>();
+    ArrayList<PresentacionesModel> presentaciones;
+    ArrayList<PresentacionesModel> unidades;
     ProductosAdapter productosAdapter;
     LinearLayoutManager llm;
     Dialog dialog;
@@ -75,6 +82,19 @@ public class ProductosFragment extends Fragment {
 
         productos = ahorratelaDB.getAllProductos();
 
+        ahorratelaDB.deleteAllPresentaciones();
+        ahorratelaDB.createPresentacion("Paquete");
+        ahorratelaDB.createPresentacion("Bolsa");
+        ahorratelaDB.createPresentacion("Caja");
+
+        ahorratelaDB.deleteAllPresentaciones1();
+        ahorratelaDB.createPresentacion1("mg");
+        ahorratelaDB.createPresentacion1("kg");
+        ahorratelaDB.createPresentacion1("litro");
+
+        presentaciones = ahorratelaDB.getAllPresentaciones();
+        unidades = ahorratelaDB.getAllPresentaciones1();
+
         buttonAdd = (FloatingActionButton) v.findViewById(R.id.addProducto);
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +111,7 @@ public class ProductosFragment extends Fragment {
 
         productosAdapter = new ProductosAdapter(productos);
         recyclerView.setAdapter(productosAdapter);
+
         return v;
     }
 
@@ -127,12 +148,34 @@ public class ProductosFragment extends Fragment {
         final EditText editTextNombre;
         FloatingActionButton buttonGuardar;
         FloatingActionButton buttonCancelar;
-
+        Spinner spinnerPresentaciones;
+        Spinner spinnerUnidades;
         dialog.setContentView(R.layout.popup_registrar_productos);
 
         editTextNombre = (EditText) dialog.findViewById(R.id.editTextNombrePro);
         buttonGuardar = (FloatingActionButton) dialog.findViewById(R.id.btnGuardarProducto);
         buttonCancelar = (FloatingActionButton) dialog.findViewById(R.id.btnCancelarProducto);
+        spinnerPresentaciones = (Spinner) dialog.findViewById(R.id.spinnerPresentaciones);
+        spinnerUnidades = (Spinner) dialog.findViewById(R.id.spinnerUnidad);
+
+        //AÑADIENDO DATOS AL SPINNER PRESENTACIONES
+        final ArrayList<String> arraySpinnerP = new ArrayList<String>();
+        for (int i = 0; i <presentaciones.size(); i++) {
+            arraySpinnerP.add(presentaciones.get(i).getNombre().toString());
+        }
+        ArrayAdapter<String> adapterP = new ArrayAdapter<String>(dialog.getContext(),android.R.layout.simple_spinner_item,arraySpinnerP);
+        adapterP.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerPresentaciones.setAdapter(adapterP);
+
+        //AÑADIENDO DATOS AL SPINNER UNIDADES
+        final ArrayList<String> arraySpinnerU = new ArrayList<String>();
+        for (int i = 0; i <unidades.size(); i++) {
+            arraySpinnerU.add(unidades.get(i).getNombre().toString());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(dialog.getContext(),android.R.layout.simple_spinner_item,arraySpinnerU);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerUnidades.setAdapter(adapter);
+
 
         buttonGuardar.setOnClickListener(new View.OnClickListener() {
             @Override

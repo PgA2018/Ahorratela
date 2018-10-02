@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,7 +57,7 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
     public class ProductosViewHolder extends RecyclerView.ViewHolder{
         TextView id;
         TextView nombre;
-        FloatingActionButton eliminarProducto;
+        ImageView eliminarProducto;
         Dialog dialog, dialogEdit;
         FloatingActionButton aceptarEliminarProducto;
         FloatingActionButton cancelarEliminarProducto;
@@ -65,12 +67,11 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
         FloatingActionButton editarLugarCancelar;
         EditText editTextNombre;
 
-
         public ProductosViewHolder(final View itemView) {
             super(itemView);
             id = (TextView) itemView.findViewById(R.id.idProducto);
             nombre = (TextView) itemView.findViewById(R.id.nombreProducto);
-            eliminarProducto = (FloatingActionButton) itemView.findViewById(R.id.eliminarProducto);
+            eliminarProducto = (ImageView) itemView.findViewById(R.id.eliminarProducto);
             dialog = new Dialog(itemView.getContext());
             dialogEdit = new Dialog(itemView.getContext());
 

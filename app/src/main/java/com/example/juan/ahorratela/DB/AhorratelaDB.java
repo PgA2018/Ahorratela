@@ -7,7 +7,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.juan.ahorratela.Modelos.ComprasModel;
 import com.example.juan.ahorratela.Modelos.LugaresModel;
+import com.example.juan.ahorratela.Modelos.PresentacionesModel;
 import com.example.juan.ahorratela.Modelos.ProductosModel;
+import com.example.juan.ahorratela.Modelos.UnidadModel;
 
 import java.util.ArrayList;
 
@@ -25,6 +27,9 @@ public class AhorratelaDB extends SQLiteOpenHelper{
     String TABLE_LUGARES = "Lugares";
     String TABLE_PRODUCTOS = "Productos";
     String TABLE_COMPRAS = "Compras";
+    String TABLE_PRESENTACIONES = "Presentaciones";
+    String TABLE_PRESENTACIONES1 = "Presentaciones1";
+
 
     String ID = "id";
     String NOMBRE = "nombre";
@@ -46,6 +51,14 @@ public class AhorratelaDB extends SQLiteOpenHelper{
             + ID_PRODUCTO +" "+STRING_TYPE+" NOT NULL, "
             + ID_UBICACION +" "+STRING_TYPE+" NOT NULL) ";
 
+    private final String CREATE_TABLE_PRESENTACIONES = "CREATE TABLE " + TABLE_PRESENTACIONES + " ("
+            +ID+" "+INT_TYPE+" PRIMARY KEY, "
+            +NOMBRE+" "+STRING_TYPE+" NOT NULL)";
+
+    private final String CREATE_TABLE_PRESENTACIONES1 = "CREATE TABLE " + TABLE_PRESENTACIONES1 + " ("
+            +ID+" "+INT_TYPE+" PRIMARY KEY, "
+            +NOMBRE+" "+STRING_TYPE+" NOT NULL)";
+
     public AhorratelaDB(Context context) {
         super(context, "AhorratelaDB",null,1);
         this.context = context;
@@ -53,19 +66,29 @@ public class AhorratelaDB extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        sqLiteDatabase.execSQL(CREATE_TABLE_PRESENTACIONES1);
         sqLiteDatabase.execSQL(CREATE_TABLE_LUGARES);
         sqLiteDatabase.execSQL(CREATE_TABLE_PRODUCTOS);
         sqLiteDatabase.execSQL(CREATE_TABLE_COMPRAS);
+        sqLiteDatabase.execSQL(CREATE_TABLE_PRESENTACIONES);
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+        sqLiteDatabase.execSQL("DROP TABLE IF EXIST " + TABLE_PRESENTACIONES1);
         sqLiteDatabase.execSQL("DROP TABLE IF EXIST " + TABLE_LUGARES);
         sqLiteDatabase.execSQL("DROP TABLE IF EXIST " + TABLE_PRODUCTOS);
         sqLiteDatabase.execSQL("DROP TABLE IF EXIST " + TABLE_COMPRAS);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXIST " + TABLE_PRESENTACIONES);
+
+
+        sqLiteDatabase.execSQL(CREATE_TABLE_PRESENTACIONES1);
         sqLiteDatabase.execSQL(CREATE_TABLE_LUGARES);
         sqLiteDatabase.execSQL(CREATE_TABLE_PRODUCTOS);
         sqLiteDatabase.execSQL(CREATE_TABLE_COMPRAS);
+        sqLiteDatabase.execSQL(CREATE_TABLE_PRESENTACIONES);
+
     }
 
     public boolean createLugar(LugaresModel lugar) {
@@ -564,4 +587,119 @@ public class AhorratelaDB extends SQLiteOpenHelper{
         }
         return ret;
     }
+
+    public boolean createPresentacion(String presentacion) {
+        boolean ret = false;
+        SQLiteDatabase db = getWritableDatabase();
+        if (db != null) {
+            try {
+                String q = "INSERT INTO " + TABLE_PRESENTACIONES + " (" + NOMBRE + ") " + "VALUES(" + "'" + presentacion+"')";
+                db.execSQL(q);
+                ret = true;
+            } catch (Exception e) {
+                e.getStackTrace();
+                return false;
+            }
+            db.close();
+        }
+        return ret;
+    }
+
+    public ArrayList<PresentacionesModel> getAllPresentaciones() {
+
+        ArrayList<PresentacionesModel> array = new ArrayList<PresentacionesModel>();
+
+        SQLiteDatabase db = getReadableDatabase();
+        if (db != null) {
+
+            String q = "SELECT * FROM " + TABLE_PRESENTACIONES;
+            try {
+                Cursor c = db.rawQuery(q, null);
+                PresentacionesModel presentaciones = null;
+                while (c.moveToNext()) {
+                    presentaciones = new PresentacionesModel(
+                            c.getInt(0),
+                            c.getString(1)
+                    );
+                    array.add(presentaciones);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            db.close();
+        }
+        return array;
+    }
+
+    public void deleteAllPresentaciones(){
+
+        SQLiteDatabase db = getWritableDatabase();
+        if(db != null) {
+            try {
+                String q = "DELETE FROM " + TABLE_PRESENTACIONES;
+                db.execSQL(q);
+            } catch (Exception e) {
+                e.getStackTrace();
+            }
+            db.close();
+        }
+    }
+
+    public boolean createPresentacion1(String presentacion) {
+        boolean ret = false;
+        SQLiteDatabase db = getWritableDatabase();
+        if (db != null) {
+            try {
+                String q = "INSERT INTO " + TABLE_PRESENTACIONES1 + " (" + NOMBRE + ") " + "VALUES(" + "'" + presentacion+"')";
+                db.execSQL(q);
+                ret = true;
+            } catch (Exception e) {
+                e.getStackTrace();
+                return false;
+            }
+            db.close();
+        }
+        return ret;
+    }
+
+    public ArrayList<PresentacionesModel> getAllPresentaciones1() {
+
+        ArrayList<PresentacionesModel> array = new ArrayList<PresentacionesModel>();
+
+        SQLiteDatabase db = getReadableDatabase();
+        if (db != null) {
+
+            String q = "SELECT * FROM " + TABLE_PRESENTACIONES1;
+            try {
+                Cursor c = db.rawQuery(q, null);
+                PresentacionesModel presentaciones = null;
+                while (c.moveToNext()) {
+                    presentaciones = new PresentacionesModel(
+                            c.getInt(0),
+                            c.getString(1)
+                    );
+                    array.add(presentaciones);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            db.close();
+        }
+        return array;
+    }
+
+    public void deleteAllPresentaciones1(){
+
+        SQLiteDatabase db = getWritableDatabase();
+        if(db != null) {
+            try {
+                String q = "DELETE FROM " + TABLE_PRESENTACIONES1;
+                db.execSQL(q);
+            } catch (Exception e) {
+                e.getStackTrace();
+            }
+            db.close();
+        }
+    }
+
 }

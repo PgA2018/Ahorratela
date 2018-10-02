@@ -18,9 +18,9 @@
         android:layout_alignParentTop="true"
         android:layout_margin="10px"
         android:layout_marginLeft="10px"
-        android:paddingLeft="10px"
+        android:padding="3dp"
         android:text="Nombre del lugar"
-        android:textSize="20sp" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/ubicacionLugar"
@@ -30,10 +30,10 @@
         android:layout_below="@id/nombreLugar"
         android:layout_margin="10px"
         android:layout_marginLeft="10px"
-        android:paddingLeft="10px"
+        android:paddingLeft="3dp"
         android:text="Ubicación del lugar"
         android:textColor="@color/colorGrayText"
-        android:textSize="15sp" />
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/idLugar"
@@ -48,13 +48,14 @@
         android:textSize="15sp"
         android:visibility="gone" />
 
-    <android.support.design.widget.FloatingActionButton
+    <ImageView
         android:id="@+id/eliminarLugar"
-        android:layout_width="150px"
-        android:layout_height="150px"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="10px"
+        android:padding="3dp"
         android:src="@drawable/ic_delete" />
 </RelativeLayout>

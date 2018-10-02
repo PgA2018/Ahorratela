@@ -14,10 +14,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="10px">
-        <!--TextView
-            android:text="Nombre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" /-->
         <EditText
             android:id="@+id/editTextNombrePro"
             android:layout_width="match_parent"
@@ -28,8 +24,48 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10px">
+
+        <Spinner
+            android:id="@+id/spinnerPresentaciones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:padding="10px">
+        </Spinner>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:padding="10px">
+        <EditText
+            android:id="@+id/medida"
+            android:hint="Ingrese la medida"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:padding="10px"/>
+        <Spinner
+            android:id="@+id/spinnerUnidad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/medida"
+            android:layout_alignParentRight="true"
+            android:padding="10px">
+        </Spinner>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="50dp"
+        android:paddingTop="0dp">
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/btnCancelarProducto"

@@ -22,10 +22,11 @@ public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresV
     List<ComprasModel> compraList;
     Context context;
     AhorratelaDB lugaresDB;
-
+    int posMinimo;
 
     public ComprasAdapter(List<ComprasModel> compraList) {
         this.compraList = compraList;
+        posMinimo = menorCompra();
     }
 
     @Override
@@ -41,7 +42,12 @@ public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresV
         ComprasModel compra = compraList.get(position);
         holder.id_producto.setText(compra.getNombre_producto());
         holder.valor.setText("$ "+compra.getValor_compra());
-        holder.icono.setImageResource(R.drawable.ic_happy);
+        if(posMinimo == position){
+            holder.icono.setImageResource(R.drawable.ic_happy);
+        }else {
+            holder.icono.setImageResource(R.drawable.ic_sad);
+        }
+
     }
 
     @Override
@@ -60,5 +66,20 @@ public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresV
             valor = (TextView) itemView.findViewById(R.id.producto_value);
             icono = (ImageView) itemView.findViewById(R.id.icono);
         }
+    }
+
+    public int menorCompra(){
+        int posMinimo = 0;
+        if(compraList.size() > 0) {
+            ComprasModel compra = compraList.get(0);
+            int valorMinimo = compra.getValor_compra();
+            for (int i = 0; i < compraList.size(); i++) {
+                ComprasModel comprasModel = compraList.get(i);
+                if (comprasModel.getValor_compra() < valorMinimo) {
+                    posMinimo = i;
+                }
+            }
+        }
+        return posMinimo;
     }
 }

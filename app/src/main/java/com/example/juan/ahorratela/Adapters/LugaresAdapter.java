@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +58,7 @@ public class LugaresAdapter extends RecyclerView.Adapter<LugaresAdapter.LugaresV
         TextView id;
         TextView nombre;
         TextView ubicacion;
-        FloatingActionButton eliminarLugar;
+        ImageView eliminarLugar;
         Dialog dialog, dialogEdit;
         FloatingActionButton aceptarEliminarLugar;
         FloatingActionButton cancelarEliminarLugar;
@@ -73,7 +74,7 @@ public class LugaresAdapter extends RecyclerView.Adapter<LugaresAdapter.LugaresV
             id = (TextView) itemView.findViewById(R.id.idLugar);
             nombre = (TextView) itemView.findViewById(R.id.nombreLugar);
             ubicacion = (TextView) itemView.findViewById(R.id.ubicacionLugar);
-            eliminarLugar = (FloatingActionButton) itemView.findViewById(R.id.eliminarLugar);
+            eliminarLugar = (ImageView) itemView.findViewById(R.id.eliminarLugar);
             dialog = new Dialog(itemView.getContext());
             dialogEdit = new Dialog(itemView.getContext());
 
