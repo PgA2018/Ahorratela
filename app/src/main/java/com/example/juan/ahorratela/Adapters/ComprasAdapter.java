@@ -6,10 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.juan.ahorratela.DB.AhorratelaDB;
 import com.example.juan.ahorratela.Modelos.ComprasModel;
+import com.example.juan.ahorratela.Modelos.ProductosModel;
 import com.example.juan.ahorratela.R;
 
 import java.util.List;
@@ -21,7 +24,7 @@ import java.util.List;
 public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresViewHolder>{
     List<ComprasModel> compraList;
     Context context;
-    AhorratelaDB lugaresDB;
+    AhorratelaDB ahorratelaDB;
     int posMinimo;
 
     public ComprasAdapter(List<ComprasModel> compraList) {
@@ -34,20 +37,28 @@ public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresV
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_compras, parent, false);
         LugaresViewHolder lugaresViewHolder = new LugaresViewHolder(v);
         context = v.getContext();
+        ahorratelaDB = new AhorratelaDB(v.getContext());
+
+
+
         return lugaresViewHolder;
     }
 
     @Override
     public void onBindViewHolder(LugaresViewHolder holder, int position) {
         ComprasModel compra = compraList.get(position);
-        holder.id_producto.setText(compra.getNombre_producto());
+        ProductosModel prod = ahorratelaDB.getProductoById(compra.getId_producto());
+
+        holder.idProducto.setText(""+compra.getId_producto());
+        holder.idLugar.setText(""+compra.getId_ubicacion());
+        holder.nombreProducto.setText(compra.getNombre_producto()+" "+prod.getPresentacion()+ " "+ prod.getMedida() +" " + prod.getUnidad());
         holder.valor.setText("$ "+compra.getValor_compra());
+
         if(posMinimo == position){
             holder.icono.setImageResource(R.drawable.ic_happy);
         }else {
             holder.icono.setImageResource(R.drawable.ic_sad);
         }
-
     }
 
     @Override
@@ -56,15 +67,29 @@ public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresV
     }
 
     public class LugaresViewHolder extends RecyclerView.ViewHolder{
-        TextView id_producto;
+        TextView idProducto, idLugar;
+        TextView nombreProducto;
         TextView valor;
         ImageView icono;
+        TableLayout layoutCompras;
 
         public LugaresViewHolder(final View itemView) {
             super(itemView);
-            id_producto = (TextView) itemView.findViewById(R.id.producto_name);
+            idProducto = (TextView) itemView.findViewById(R.id.producto_id);
+            idLugar = (TextView) itemView.findViewById(R.id.lugar_id);
+            nombreProducto = (TextView) itemView.findViewById(R.id.producto_name);
             valor = (TextView) itemView.findViewById(R.id.producto_value);
             icono = (ImageView) itemView.findViewById(R.id.icono);
+            layoutCompras = (TableLayout) itemView.findViewById(R.id.layoutCompras);
+
+            layoutCompras.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(ahorratelaDB.createCompra(new ComprasModel(Integer.parseInt(idProducto.getText().toString()),Integer.parseInt(idLugar.getText().toString())))){
+                        Toast.makeText(itemView.getContext(), "Se ha guardado la compra", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
     }
 

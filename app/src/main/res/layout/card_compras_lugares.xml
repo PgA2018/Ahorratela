@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10px"
-    android:background="@drawable/lugares_dw"
+    android:background="@drawable/fondo_morado"
     android:elevation="1dp"
     android:orientation="vertical"
     android:padding="10px">
@@ -24,7 +24,8 @@
             android:layout_marginLeft="10px"
             android:paddingLeft="10px"
             android:text="Nombre del lugar"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:textColor="#FFFFFF"/>
 
         <TextView
             android:id="@+id/ubicacionLugar"
@@ -36,7 +37,7 @@
             android:layout_marginLeft="10px"
             android:paddingLeft="10px"
             android:text="Ubicación del lugar"
-            android:textColor="@color/colorGrayText"
+            android:textColor="@color/colorList"
             android:textSize="12sp" />
 
         <TextView

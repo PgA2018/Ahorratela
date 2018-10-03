@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10px"
-    android:background="@drawable/lugares_dw"
+    android:background="@drawable/fondo_morado"
     android:elevation="1dp"
     android:orientation="vertical"
     android:padding="10px">
@@ -15,6 +15,7 @@
         android:id="@+id/productosComprasLayout">
         <TextView
             android:id="@+id/nombreProducto"
+            android:textColor="#FFFFFF"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -35,7 +36,7 @@
             android:layout_marginLeft="10px"
             android:paddingLeft="3dp"
             android:text="Descripción del producto"
-            android:textColor="@color/colorGrayText"
+            android:textColor="@color/colorList"
             android:textSize="12sp" />
 
         <TextView
