@@ -48,6 +48,9 @@ public class ComprasProductosAdapter extends RecyclerView.Adapter<ComprasProduct
         holder.id.setText(productos.getId().toString());
         holder.nombre.setText(productos.getNombre());
         holder.descripcion.setText(productos.getPresentacion()+" "+productos.getMedida()+" "+productos.getUnidad());
+        holder.presentacion.setText(productos.getPresentacion().toString());
+        holder.unidad.setText(productos.getUnidad().toString());
+        holder.medida.setText(productos.getMedida().toString());
     }
 
     @Override
@@ -59,6 +62,9 @@ public class ComprasProductosAdapter extends RecyclerView.Adapter<ComprasProduct
         TextView id;
         TextView nombre;
         TextView descripcion;
+        TextView presentacion;
+        TextView unidad;
+        TextView medida;
         RelativeLayout agregarProducto;
 
         public LugaresViewHolder(final View itemView) {
@@ -66,6 +72,9 @@ public class ComprasProductosAdapter extends RecyclerView.Adapter<ComprasProduct
             id = (TextView) itemView.findViewById(R.id.idProducto);
             nombre = (TextView) itemView.findViewById(R.id.nombreProducto);
             descripcion = (TextView) itemView.findViewById(R.id.descripcionProducto);
+            presentacion = (TextView) itemView.findViewById(R.id.presentacionProducto);
+            unidad = (TextView) itemView.findViewById(R.id.unidadProducto);
+            medida = (TextView) itemView.findViewById(R.id.medidaProducto);
             agregarProducto = (RelativeLayout) itemView.findViewById(R.id.productosComprasLayout);
 
             agregarProducto.setOnClickListener(new View.OnClickListener() {
@@ -73,8 +82,11 @@ public class ComprasProductosAdapter extends RecyclerView.Adapter<ComprasProduct
                 public void onClick(View view) {
                     buttonClickInterface.producto(new ProductosModel(
                             Integer.parseInt(id.getText().toString()),
-                            nombre.getText().toString()));
-                    //((Global) fragmentActivity.getApplication()).setLugar(new LugaresModel(1,nombre.getText().toString(),ubicacion.getText().toString()));
+                            nombre.getText().toString(),
+                            presentacion.getText().toString(),
+                            unidad.getText().toString(),
+                            Integer.parseInt(medida.getText().toString())
+                            ));
                 }
             });
 
