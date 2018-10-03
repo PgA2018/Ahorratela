@@ -12,17 +12,14 @@ import com.example.juan.ahorratela.Modelos.ProductosModel;
 import com.example.juan.ahorratela.Modelos.UnidadModel;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
-/**
- * Created by juan on 28/09/2018.
- */
 
 public class AhorratelaDB extends SQLiteOpenHelper{
     Context context;
 
     static String STRING_TYPE = "text";
     static String INT_TYPE = "integer";
+    static String FLOAT_TYPE = "real";
     static String BOOLEAN_TYPE = "boolean";
 
     static String TABLE_LUGARES = "Lugares";
@@ -42,7 +39,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
     static String MEDIDA = "medida";
     static String VALOR_COMPRA = "valor_compra";
     static String VALOR_AHORRO = "valor_ahorro";
-    static String FECHA_COMPRA = "fecha_Compra";
+    static String FECHA = "fecha_compra";
 
     private static final String CREATE_TABLE_LUGARES = "CREATE TABLE " + TABLE_LUGARES + " ("
             +ID+" "+INT_TYPE+" PRIMARY KEY, "
@@ -58,11 +55,11 @@ public class AhorratelaDB extends SQLiteOpenHelper{
 
     private static final String CREATE_TABLE_COMPRAS = "CREATE TABLE " + TABLE_COMPRAS + " ("
             +ID+" "+INT_TYPE+" PRIMARY KEY, "
-            + ID_PRODUCTO +" "+STRING_TYPE+" NOT NULL, "
-            + ID_UBICACION +" "+STRING_TYPE+" NOT NULL,"
-            + VALOR_COMPRA +" "+STRING_TYPE+" NOT NULL,"
-            + VALOR_COMPRA +" "+STRING_TYPE+" NOT NULL,"
-            + FECHA_COMPRA +" "+STRING_TYPE+"NOT NULL) ";
+            + ID_PRODUCTO +" "+INT_TYPE+" NOT NULL, "
+            + ID_UBICACION +" "+INT_TYPE+" NOT NULL,"
+            + FECHA +" "+STRING_TYPE+" NOT NULL,"
+            + VALOR_COMPRA +" "+INT_TYPE+" NOT NULL,"
+            + VALOR_AHORRO +" "+FLOAT_TYPE+" NOT NULL) ";
 
     private static final String CREATE_TABLE_UNIDAD = "CREATE TABLE " + TABLE_UNIDAD + " ("
             +ID+" "+INT_TYPE+" PRIMARY KEY, "
@@ -521,12 +518,15 @@ public class AhorratelaDB extends SQLiteOpenHelper{
         SQLiteDatabase db = getWritableDatabase();
         if (db != null) {
             try {
-                String q = "INSERT INTO " + TABLE_COMPRAS + " (" + ID_PRODUCTO + ", " + ID_UBICACION + ", " + VALOR_COMPRA + ", " + VALOR_AHORRO + ", " + FECHA_COMPRA + ") " + "VALUES(" + "'" + comprasModel.getId_producto()+ "', " + "'" + comprasModel.getId_ubicacion() + "'" + comprasModel.getValor_compra() + "'" + comprasModel.getValor_ahorro() + "'" + Locale.getDefault() + "')";
+                String q = "INSERT INTO " + TABLE_COMPRAS + " " +
+                        "(" + ID_PRODUCTO + ", " + ID_UBICACION + ", " + FECHA + ", " +VALOR_COMPRA + ", " + VALOR_AHORRO + ") " +
+                        "" + "VALUES(" + "'" + comprasModel.getId_producto()+ "', " + "'" + comprasModel.getId_ubicacion() + "', '"+ comprasModel.getFecha() +"', '" + comprasModel.getValor_compra() + "', '" + comprasModel.getValor_ahorro() +"')";
+                //String q = "insert into Compras (id_producto, id_hubicacion, valor_compra, valor_ahorro, fecha_compra) values ('"+comprasModel.getId_producto()+"', '"+comprasModel.getId_ubicacion()+"', '"+comprasModel.getValor_compra()+"', '"+comprasModel.getValor_ahorro()+"' )";
                 db.execSQL(q);
                 ret = true;
             } catch (Exception e) {
                 e.getStackTrace();
-                return false;
+                ret = false;
             }
             db.close();
         }
@@ -547,7 +547,10 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                 while (c.moveToNext()) {
                     comprasModel = new ComprasModel(
                             c.getInt(0),
-                            c.getInt(1)
+                            c.getInt(1),
+                            c.getString(2),
+                            c.getInt(3),
+                            c.getFloat(3)
                     );
                     array.add(comprasModel);
                 }
@@ -573,7 +576,10 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                 while (c.moveToNext()) {
                     comprasModel = new ComprasModel(
                             c.getInt(0),
-                            c.getInt(1)
+                            c.getInt(1),
+                            c.getString(2),
+                            c.getInt(3),
+                            c.getFloat(4)
                     );
                 }
             } catch (Exception e) {
@@ -601,7 +607,10 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                 while (c.moveToNext()) {
                     comprasModel = new ComprasModel(
                             c.getInt(0),
-                            c.getInt(1)
+                            c.getInt(1),
+                            c.getString(2),
+                            c.getInt(3),
+                            c.getFloat(4)
                     );
                 }
             } catch (Exception e) {

@@ -15,6 +15,8 @@ import com.example.juan.ahorratela.Modelos.ComprasModel;
 import com.example.juan.ahorratela.Modelos.ProductosModel;
 import com.example.juan.ahorratela.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -54,36 +56,20 @@ public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresV
         ComprasModel compra = compraList.get(position);
         ProductosModel prod = ahorratelaDB.getProductoById(compra.getId_producto());
 
-        Gramos = unidad(prod.getUnidad(),prod.getMedida());
-        //Toast.makeText(context, ""+valorAhorro, Toast.LENGTH_SHORT).show();
-        //Toast.makeText(context, ""+Gramos, Toast.LENGTH_SHORT).show();
-        //Toast.makeText(context, ""+Vmayorg, Toast.LENGTH_SHORT).show();
-        //Toast.makeText(context, ""+Vmenorg, Toast.LENGTH_SHORT).show();
         holder.idProducto.setText(""+compra.getId_producto());
         holder.idLugar.setText(""+compra.getId_ubicacion());
         holder.nombreProducto.setText(compra.getNombre_producto()+" "+prod.getPresentacion()+ " "+ prod.getMedida() +" " + prod.getUnidad());
        // holder.valor.setText("$ "+compra.getValor_compra());
-
-
-        /*if(posMinimo == position && Vmayorg>Vmenorg){
-            valorAhorro = Gramos*Vmayorg - Gramos*Vmenorg;
-            holder.valor.setText("$ "+valorAhorro);
-        }else{
-            Vmayorg=0;
-            valorAhorro = Gramos*Vmayorg - Gramos*Vmenorg;
-            holder.valor.setText("$ "+valorAhorro);
-        }*/
-
-        //valorAhorro = Gramos*Vmayorg - compra.getValor_compra()/Gramos;
-        //holder.valor.setText("$ "+valorAhorro);
 
         if(posMinimo == position){
             holder.icono.setImageResource(R.drawable.ic_happy);
         }else {
             holder.icono.setImageResource(R.drawable.ic_sad);
         }
-        float aux = valorMinimo - compra.getValor_compra()/prod.getMedida();
-        holder.valor.setText("$ "+aux);
+        float aux = valorMinimo - compra.getValor_compra()/unidad(prod.getUnidad(),prod.getMedida());
+        holder.valor.setText("Ahorro $ "+aux+" x gramo");
+        holder.valor_ahorro.setText(""+aux);
+        holder.valor_producto.setText(""+compra.getValor_compra());
     }
 
     @Override
@@ -95,8 +81,13 @@ public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresV
         TextView idProducto, idLugar;
         TextView nombreProducto;
         TextView valor;
+        TextView valor_producto;
+        TextView valor_ahorro;
         ImageView icono;
         TableLayout layoutCompras;
+        String fecha;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
 
         public LugaresViewHolder(final View itemView) {
             super(itemView);
@@ -104,15 +95,24 @@ public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresV
             idLugar = (TextView) itemView.findViewById(R.id.lugar_id);
             nombreProducto = (TextView) itemView.findViewById(R.id.producto_name);
             valor = (TextView) itemView.findViewById(R.id.producto_value);
+            valor_producto = (TextView) itemView.findViewById(R.id.valor_producto);
+            valor_ahorro = (TextView) itemView.findViewById(R.id.valor_ahorro);
             icono = (ImageView) itemView.findViewById(R.id.icono);
             layoutCompras = (TableLayout) itemView.findViewById(R.id.layoutCompras);
+            fecha = dateFormat.format(date);
 
             layoutCompras.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(ahorratelaDB.createCompra(new ComprasModel(Integer.parseInt(idProducto.getText().toString()),Integer.parseInt(idLugar.getText().toString())))){
-                        Toast.makeText(itemView.getContext(), "Se ha guardado la compra", Toast.LENGTH_SHORT).show();
-                    }
+
+                        if(ahorratelaDB.createCompra(new ComprasModel(Integer.parseInt(idProducto.getText().toString()),Integer.parseInt(idLugar.getText().toString()),fecha,Integer.parseInt(valor_producto.getText().toString()),Float.parseFloat(valor_ahorro.getText().toString())))){
+                            Toast.makeText(itemView.getContext(), "Se ha guardado la compra", Toast.LENGTH_SHORT).show();
+                            compraList.clear();
+                            notifyDataSetChanged();
+                        }else{
+                            Toast.makeText(itemView.getContext(), "error al ingresar", Toast.LENGTH_LONG).show();
+                        }
+
                 }
             });
         }
@@ -137,43 +137,6 @@ public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresV
         return posMinimo;
     }
 
-    public float mayorComparacion(){
-        int posMaximo = 0;
-        float valorMaximo = 0;
-        if(compraList.size() > 0) {
-            ComprasModel compra = compraList.get(0);
-            ProductosModel prod = ahorratelaDB.getProductoById(compra.getId_producto());
-            valorMaximo = (float) compra.getValor_compra()/unidad(prod.getUnidad(), prod.getMedida());
-            for (int i = 0; i < compraList.size(); i++) {
-                ComprasModel comprasModel = compraList.get(i);
-                prod = ahorratelaDB.getProductoById(comprasModel.getId_producto());
-                float valor = (float) comprasModel.getValor_compra()/unidad(prod.getUnidad(),prod.getMedida());
-                if ( valor > valorMaximo) {
-                    posMaximo = i;
-                }
-            }
-        }
-        return valorMaximo;
-    }
-
-    public float menorComparacion(){
-        int posMaximo = 0;
-        float valorMinimo = 0;
-        if(compraList.size() > 0) {
-            ComprasModel compra = compraList.get(0);
-            ProductosModel prod = ahorratelaDB.getProductoById(compra.getId_producto());
-            valorMinimo = (float) compra.getValor_compra()/unidad(prod.getUnidad(), prod.getMedida());
-            for (int i = 0; i < compraList.size(); i++) {
-                ComprasModel comprasModel = compraList.get(i);
-                prod = ahorratelaDB.getProductoById(comprasModel.getId_producto());
-                float valor = (float) comprasModel.getValor_compra()/unidad(prod.getUnidad(),prod.getMedida());
-                if ( valor < valorMinimo) {
-                    posMaximo = i;
-                }
-            }
-        }
-        return valorMinimo;
-    }
 
     private float unidad(String unidad, int medida){
         float gramos = 0;

@@ -1,21 +1,23 @@
 package com.example.juan.ahorratela.Modelos;
 
-/**
- * Created by MattSeidel on 28/09/18.
- */
-
 public class ComprasModel {
 
     private int id;
     private int id_producto;
     private int id_ubicacion;
+    private String fecha;
     private int valor_compra;
-    private int valor_ahorro;
+    private float valor_ahorro;
     private String nombre_producto;
 
-    public ComprasModel(int producto, int ubicacion) {
-        this.id_producto = producto;
-        this.id_ubicacion = ubicacion;
+
+
+    public ComprasModel(int id_producto, int id_ubicacion, String fecha, int valor_compra, float valor_ahorro) {
+        this.id_producto = id_producto;
+        this.id_ubicacion = id_ubicacion;
+        this.fecha=fecha;
+        this.valor_compra = valor_compra;
+        this.valor_ahorro=valor_ahorro;
     }
 
     public ComprasModel(int id_producto, int id_ubicacion, int valor_compra, String nombre_producto) {
@@ -23,6 +25,18 @@ public class ComprasModel {
         this.id_ubicacion = id_ubicacion;
         this.valor_compra = valor_compra;
         this.nombre_producto = nombre_producto;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setId_ubicacion(int id_ubicacion) {
+        this.id_ubicacion = id_ubicacion;
     }
 
     public int getId() {
@@ -57,11 +71,11 @@ public class ComprasModel {
         this.valor_compra = valor_compra;
     }
 
-    public int getValor_ahorro() {
+    public float getValor_ahorro() {
         return valor_ahorro;
     }
 
-    public void setValor_ahorro(int valor_ahorro) {
+    public void setValor_ahorro(float valor_ahorro) {
         this.valor_ahorro = valor_ahorro;
     }
 
@@ -73,3 +87,4 @@ public class ComprasModel {
         this.nombre_producto = nombre_producto;
     }
 }
+
