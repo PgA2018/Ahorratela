@@ -21,21 +21,31 @@
             android:hint="Ingrese el nombre del producto"/>
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10px">
-
+        android:padding="10px"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:id="@+id/pres"
+            android:padding="5dp"
+            android:textSize="17dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Presentación"
+            android:layout_alignParentLeft="true"/>
         <Spinner
+            android:layout_toRightOf="@+id/pres"
+            android:background="@drawable/fondo_morado"
             android:id="@+id/spinnerPresentaciones"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:padding="10px">
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="55dp"
+            android:padding="20px">
         </Spinner>
-
-    </LinearLayout>
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -48,15 +58,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:padding="10px"
+            android:padding="20px"
             android:inputType="number"/>
         <Spinner
+            android:background="@drawable/fondo_morado"
             android:id="@+id/spinnerUnidad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/medida"
             android:layout_alignParentRight="true"
-            android:padding="10px">
+            android:padding="20px"
+            android:layout_marginTop="20px"
+            android:layout_marginLeft="40dp">
         </Spinner>
     </RelativeLayout>
 

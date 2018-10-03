@@ -364,7 +364,33 @@ public class AhorratelaDB extends SQLiteOpenHelper{
         return producto;
     }
 
-    public ProductosModel getProductoByNombreBool(String nombre) {
+    public ProductosModel getProductoByDetalles(String nombre, String unidad, String presentacion) {
+
+        ProductosModel producto = null;
+
+        SQLiteDatabase db = getReadableDatabase();
+        if (db != null) {
+
+            String q = "SELECT * FROM " + TABLE_PRODUCTOS + " WHERE " + NOMBRE + " = '"+ nombre +"' AND "+ID_UNIDAD+"='"+unidad+"' AND "+ID_PRESENTACION+"='"+presentacion+"'";
+            try {
+                Cursor c = db.rawQuery(q, null);
+                producto = null;
+                while (c.moveToNext()) {
+                    producto = new ProductosModel(
+                            c.getInt(0),
+                            c.getString(1)
+                    );
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            db.close();
+        }
+
+        return producto;
+    }
+
+    public ProductosModel getProductoByNombreOnly(String nombre) {
 
         ProductosModel producto = null;
 

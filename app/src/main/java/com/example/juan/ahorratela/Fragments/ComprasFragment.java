@@ -156,7 +156,7 @@ public class ComprasFragment extends Fragment implements buttonClickInterface {
     @Override
     public void producto(ProductosModel producto) {
         this.producto = producto;
-        editTextProducto.setText(this.producto.getNombre().toString());
+        editTextProducto.setText(this.producto.getNombre().toString()+ " " +this.producto.getPresentacion() + " "+ this.producto.getUnidad()+" "+this.producto.getMedida());
         productos = new ArrayList<>();
         comprasProductosAdapter = new ComprasProductosAdapter(productos,getActivity(),buttonClickInterface);
         lista.setAdapter(comprasProductosAdapter);
@@ -220,21 +220,28 @@ public class ComprasFragment extends Fragment implements buttonClickInterface {
             @Override
             public void onClick(View view) {
                 if(!editTextLugar.getText().toString().equals("") && !editTextProducto.getText().toString().equals("") && !editTextPrecio.getText().toString().equals("")){
-                    LugaresModel lugar = ahorratelaDB.getLugarByNombreBool(editTextLugar.getText().toString());
-                    ProductosModel producto = ahorratelaDB.getProductoByNombreBool(editTextProducto.getText().toString());
-                    if(lugar == null){
+                    ProductosModel auxProducto = null;
+                    LugaresModel auxLugar = ahorratelaDB.getLugarByNombreBool(editTextLugar.getText().toString());
+                    if(producto != null){
+                        auxProducto = ahorratelaDB.getProductoByDetalles(producto.getNombre(), producto.getUnidad(), producto.getPresentacion());
+                    }else{
+                        auxProducto = ahorratelaDB.getProductoByNombreOnly(editTextProducto.getText().toString());
+                    }
+                    if(auxLugar == null){
                         Toast.makeText(view.getContext(), "Seleccione un lugar válido", Toast.LENGTH_SHORT).show();
                     }
-                    if(producto == null){
+                    if(auxProducto == null){
                         Toast.makeText(view.getContext(), "Seleccione un producto válido", Toast.LENGTH_SHORT).show();
                     }
-                    if(lugar!=null && producto!=null){
+                    if(auxLugar!=null && auxProducto!=null){
                         compras.add(new ComprasModel(
-                                producto.getId(),
-                                lugar.getId(),
+                                auxProducto.getId(),
+                                auxLugar.getId(),
                                 Integer.parseInt(editTextPrecio.getText().toString()),
-                                producto.getNombre().toString()
+                                auxProducto.getNombre().toString()
                         ));
+                        auxProducto = null;
+                        auxLugar = null;
                         producto = null;
                         lugar = null;
                         comprasAdapter = new ComprasAdapter(compras);

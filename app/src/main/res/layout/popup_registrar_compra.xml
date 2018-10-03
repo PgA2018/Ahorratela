@@ -24,7 +24,8 @@
                     android:hint="Ingrese el nombre del producto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"/>
+                    android:layout_alignParentLeft="true"
+                    />
                 <ImageView
                     android:id="@+id/btnBuscarProducto"
                     android:layout_width="wrap_content"
@@ -52,16 +53,31 @@
                     android:layout_alignParentRight="true"/>
         </RelativeLayout>
 
-        <EditText
-            android:id="@+id/editTextPrecio"
-            android:hint="Valor del producto"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/prec"
+                    android:text="$"
+                    android:textSize="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_margin="10sp"/>
+                <EditText
+                    android:id="@+id/editTextPrecio"
+                    android:hint="Valor del producto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:inputType="number"
+                    android:layout_toRightOf="@+id/prec"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_marginTop="50dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:inputType="number"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="99dp"
             android:gravity="center"
             android:orientation="horizontal">
 
