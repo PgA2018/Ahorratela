@@ -378,7 +378,10 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                 while (c.moveToNext()) {
                     producto = new ProductosModel(
                             c.getInt(0),
-                            c.getString(1)
+                            c.getString(1),
+                            c.getString(2),
+                            c.getString(3),
+                            c.getInt(4)
                     );
                 }
             } catch (Exception e) {

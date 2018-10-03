@@ -76,9 +76,12 @@ public class MainActivity extends AppCompatActivity {
         ahorratelaDB.createPresentacion("Botella");
         ahorratelaDB.createPresentacion("Paquete");
 
-        ahorratelaDB.createUnidad("Kg");
+        ahorratelaDB.createUnidad("kg");
+        ahorratelaDB.createUnidad("gr");
         ahorratelaDB.createUnidad("mg");
+        ahorratelaDB.createUnidad("lb");
         ahorratelaDB.createUnidad("ml");
+        ahorratelaDB.createUnidad("lt");
     }
 
     @Override

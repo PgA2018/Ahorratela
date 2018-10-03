@@ -26,10 +26,13 @@ public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresV
     Context context;
     AhorratelaDB ahorratelaDB;
     int posMinimo;
+    int valorgramo;
+    int valorAhorro;
+    //int gramos;
 
     public ComprasAdapter(List<ComprasModel> compraList) {
         this.compraList = compraList;
-        posMinimo = menorCompra();
+        //posMinimo = menorCompra();
     }
 
     @Override
@@ -38,9 +41,7 @@ public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresV
         LugaresViewHolder lugaresViewHolder = new LugaresViewHolder(v);
         context = v.getContext();
         ahorratelaDB = new AhorratelaDB(v.getContext());
-
-
-
+        posMinimo = menorCompra();
         return lugaresViewHolder;
     }
 
@@ -97,14 +98,41 @@ public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresV
         int posMinimo = 0;
         if(compraList.size() > 0) {
             ComprasModel compra = compraList.get(0);
-            int valorMinimo = compra.getValor_compra();
+            ProductosModel prod = ahorratelaDB.getProductoById(compra.getId_producto());
+            float valorMinimo = (float) compra.getValor_compra()/unidad(prod.getUnidad(), prod.getMedida());
             for (int i = 0; i < compraList.size(); i++) {
                 ComprasModel comprasModel = compraList.get(i);
-                if (comprasModel.getValor_compra() < valorMinimo) {
+                prod = ahorratelaDB.getProductoById(comprasModel.getId_producto());
+                float valor = (float) comprasModel.getValor_compra()/unidad(prod.getUnidad(),prod.getMedida());
+                if ( valor < valorMinimo) {
                     posMinimo = i;
                 }
             }
         }
         return posMinimo;
     }
+
+    private float unidad(String unidad, int medida){
+        float gramos = 0;
+        if (unidad.toString().equalsIgnoreCase("lb")){
+            gramos = 450*medida;
+        }
+        if (unidad.toString().equalsIgnoreCase("kg")){
+            gramos = 1000*medida;
+
+        }
+        if (unidad.toString().equalsIgnoreCase("mg")){
+            gramos = (float) (0.001*medida);
+        }
+        if (unidad.toString().equalsIgnoreCase("gr")){
+            gramos = medida;
+        }
+        if (unidad.toString().equalsIgnoreCase("ml")){
+            gramos = medida;
+        }
+        return gramos;
+    }
+
+
+
 }
