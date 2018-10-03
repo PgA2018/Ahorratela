@@ -12,6 +12,7 @@ import com.example.juan.ahorratela.Modelos.ProductosModel;
 import com.example.juan.ahorratela.Modelos.UnidadModel;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by juan on 28/09/2018.
@@ -39,6 +40,9 @@ public class AhorratelaDB extends SQLiteOpenHelper{
     static String ID_PRESENTACION = "id_presentacion";
     static String ID_UNIDAD = "id_unidad";
     static String MEDIDA = "medida";
+    static String VALOR_COMPRA = "valor_compra";
+    static String VALOR_AHORRO = "valor_ahorro";
+    static String FECHA_COMPRA = "fecha_Compra";
 
     private static final String CREATE_TABLE_LUGARES = "CREATE TABLE " + TABLE_LUGARES + " ("
             +ID+" "+INT_TYPE+" PRIMARY KEY, "
@@ -55,7 +59,10 @@ public class AhorratelaDB extends SQLiteOpenHelper{
     private static final String CREATE_TABLE_COMPRAS = "CREATE TABLE " + TABLE_COMPRAS + " ("
             +ID+" "+INT_TYPE+" PRIMARY KEY, "
             + ID_PRODUCTO +" "+STRING_TYPE+" NOT NULL, "
-            + ID_UBICACION +" "+STRING_TYPE+" NOT NULL) ";
+            + ID_UBICACION +" "+STRING_TYPE+" NOT NULL,"
+            + VALOR_COMPRA +" "+STRING_TYPE+" NOT NULL,"
+            + VALOR_COMPRA +" "+STRING_TYPE+" NOT NULL,"
+            + FECHA_COMPRA +" "+STRING_TYPE+"NOT NULL) ";
 
     private static final String CREATE_TABLE_UNIDAD = "CREATE TABLE " + TABLE_UNIDAD + " ("
             +ID+" "+INT_TYPE+" PRIMARY KEY, "
@@ -488,7 +495,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
         SQLiteDatabase db = getWritableDatabase();
         if (db != null) {
             try {
-                String q = "INSERT INTO " + TABLE_COMPRAS + " (" + ID_PRODUCTO + ", " + ID_UBICACION + ") " + "VALUES(" + "'" + comprasModel.getId_producto()+ "', " + "'" + comprasModel.getId_ubicacion() + "')";
+                String q = "INSERT INTO " + TABLE_COMPRAS + " (" + ID_PRODUCTO + ", " + ID_UBICACION + ", " + VALOR_COMPRA + ", " + VALOR_AHORRO + ", " + FECHA_COMPRA + ") " + "VALUES(" + "'" + comprasModel.getId_producto()+ "', " + "'" + comprasModel.getId_ubicacion() + "'" + comprasModel.getValor_compra() + "'" + comprasModel.getValor_ahorro() + "'" + Locale.getDefault() + "')";
                 db.execSQL(q);
                 ret = true;
             } catch (Exception e) {

@@ -26,13 +26,15 @@ public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresV
     Context context;
     AhorratelaDB ahorratelaDB;
     int posMinimo;
-    int valorgramo;
-    int valorAhorro;
+    float valorMinimo;
+    float Vmayorg;
+    float Vmenorg;
+    float Gramos;
+    float valorAhorro;
     //int gramos;
 
     public ComprasAdapter(List<ComprasModel> compraList) {
         this.compraList = compraList;
-        //posMinimo = menorCompra();
     }
 
     @Override
@@ -42,6 +44,8 @@ public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresV
         context = v.getContext();
         ahorratelaDB = new AhorratelaDB(v.getContext());
         posMinimo = menorCompra();
+        //Vmenorg = menorComparacion();
+        //Vmayorg = mayorComparacion();
         return lugaresViewHolder;
     }
 
@@ -50,16 +54,36 @@ public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresV
         ComprasModel compra = compraList.get(position);
         ProductosModel prod = ahorratelaDB.getProductoById(compra.getId_producto());
 
+        Gramos = unidad(prod.getUnidad(),prod.getMedida());
+        //Toast.makeText(context, ""+valorAhorro, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, ""+Gramos, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, ""+Vmayorg, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, ""+Vmenorg, Toast.LENGTH_SHORT).show();
         holder.idProducto.setText(""+compra.getId_producto());
         holder.idLugar.setText(""+compra.getId_ubicacion());
         holder.nombreProducto.setText(compra.getNombre_producto()+" "+prod.getPresentacion()+ " "+ prod.getMedida() +" " + prod.getUnidad());
-        holder.valor.setText("$ "+compra.getValor_compra());
+       // holder.valor.setText("$ "+compra.getValor_compra());
+
+
+        /*if(posMinimo == position && Vmayorg>Vmenorg){
+            valorAhorro = Gramos*Vmayorg - Gramos*Vmenorg;
+            holder.valor.setText("$ "+valorAhorro);
+        }else{
+            Vmayorg=0;
+            valorAhorro = Gramos*Vmayorg - Gramos*Vmenorg;
+            holder.valor.setText("$ "+valorAhorro);
+        }*/
+
+        //valorAhorro = Gramos*Vmayorg - compra.getValor_compra()/Gramos;
+        //holder.valor.setText("$ "+valorAhorro);
 
         if(posMinimo == position){
             holder.icono.setImageResource(R.drawable.ic_happy);
         }else {
             holder.icono.setImageResource(R.drawable.ic_sad);
         }
+        float aux = valorMinimo - compra.getValor_compra()/prod.getMedida();
+        holder.valor.setText("$ "+aux);
     }
 
     @Override
@@ -99,17 +123,56 @@ public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresV
         if(compraList.size() > 0) {
             ComprasModel compra = compraList.get(0);
             ProductosModel prod = ahorratelaDB.getProductoById(compra.getId_producto());
-            float valorMinimo = (float) compra.getValor_compra()/unidad(prod.getUnidad(), prod.getMedida());
+            valorMinimo = (float) compra.getValor_compra()/unidad(prod.getUnidad(), prod.getMedida());
             for (int i = 0; i < compraList.size(); i++) {
                 ComprasModel comprasModel = compraList.get(i);
                 prod = ahorratelaDB.getProductoById(comprasModel.getId_producto());
                 float valor = (float) comprasModel.getValor_compra()/unidad(prod.getUnidad(),prod.getMedida());
                 if ( valor < valorMinimo) {
                     posMinimo = i;
+                    valorMinimo = valor;
                 }
             }
         }
         return posMinimo;
+    }
+
+    public float mayorComparacion(){
+        int posMaximo = 0;
+        float valorMaximo = 0;
+        if(compraList.size() > 0) {
+            ComprasModel compra = compraList.get(0);
+            ProductosModel prod = ahorratelaDB.getProductoById(compra.getId_producto());
+            valorMaximo = (float) compra.getValor_compra()/unidad(prod.getUnidad(), prod.getMedida());
+            for (int i = 0; i < compraList.size(); i++) {
+                ComprasModel comprasModel = compraList.get(i);
+                prod = ahorratelaDB.getProductoById(comprasModel.getId_producto());
+                float valor = (float) comprasModel.getValor_compra()/unidad(prod.getUnidad(),prod.getMedida());
+                if ( valor > valorMaximo) {
+                    posMaximo = i;
+                }
+            }
+        }
+        return valorMaximo;
+    }
+
+    public float menorComparacion(){
+        int posMaximo = 0;
+        float valorMinimo = 0;
+        if(compraList.size() > 0) {
+            ComprasModel compra = compraList.get(0);
+            ProductosModel prod = ahorratelaDB.getProductoById(compra.getId_producto());
+            valorMinimo = (float) compra.getValor_compra()/unidad(prod.getUnidad(), prod.getMedida());
+            for (int i = 0; i < compraList.size(); i++) {
+                ComprasModel comprasModel = compraList.get(i);
+                prod = ahorratelaDB.getProductoById(comprasModel.getId_producto());
+                float valor = (float) comprasModel.getValor_compra()/unidad(prod.getUnidad(),prod.getMedida());
+                if ( valor < valorMinimo) {
+                    posMaximo = i;
+                }
+            }
+        }
+        return valorMinimo;
     }
 
     private float unidad(String unidad, int medida){
@@ -132,7 +195,6 @@ public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresV
         }
         return gramos;
     }
-
 
 
 }
