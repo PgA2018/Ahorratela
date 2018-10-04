@@ -6,12 +6,18 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.juan.ahorratela.Modelos.ComprasModel;
+import com.example.juan.ahorratela.Modelos.GraficaColumna;
+import com.example.juan.ahorratela.Modelos.GraficaLineas;
+import com.example.juan.ahorratela.Modelos.GraficaPastel;
 import com.example.juan.ahorratela.Modelos.LugaresModel;
 import com.example.juan.ahorratela.Modelos.PresentacionesModel;
 import com.example.juan.ahorratela.Modelos.ProductosModel;
 import com.example.juan.ahorratela.Modelos.UnidadModel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class AhorratelaDB extends SQLiteOpenHelper{
@@ -773,6 +779,84 @@ public class AhorratelaDB extends SQLiteOpenHelper{
         }
     }
 
+    //graficas
+    public ArrayList<GraficaPastel> getcantidadProductos() {
 
+        ArrayList<GraficaPastel> array = new ArrayList<GraficaPastel>();
+
+        SQLiteDatabase db = getReadableDatabase();
+        if (db != null) {
+
+            String q = "SELECT p.nombre,count(c.id_producto) FROM Productos p,Compras c where p.id=c.id_producto group by c.id_producto,p.nombre";
+            try {
+                Cursor c = db.rawQuery(q, null);
+                GraficaPastel graficaPastel = null;
+                while (c.moveToNext()) {
+                    graficaPastel = new GraficaPastel(
+                            c.getString(0),
+                            c.getInt(1)
+                    );
+                    array.add(graficaPastel);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            db.close();
+        }
+        return array;
+    }
+
+    public ArrayList<GraficaLineas> getGraficaLineas(){
+        ArrayList<GraficaLineas> array = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Date date = new Date();
+        String fecha = dateFormat.format(date);
+
+        if (db != null) {
+            String q= "select p.nombre,c.valor_compra,c.valor_ahorro,c.fecha_compra from Productos p,Compras c where p.id=c.id_producto and fecha_compra='"+fecha+"'";
+            //toast1.show();
+            try {
+                Cursor c = db.rawQuery(q, null);
+                GraficaLineas graficaLineas= null;
+                while (c.moveToNext()) {
+                    graficaLineas = new GraficaLineas(
+                            c.getString(0),
+                            c.getInt(1),
+                            c.getDouble(2)
+                    );
+                    array.add(graficaLineas);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            db.close();
+        }
+        return array;
+    }
+    //revisar
+    public ArrayList<GraficaColumna> getGraficaAhorroLugar(){
+        ArrayList<GraficaColumna> array = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+
+        if (db != null) {
+            String q1= "SELECT l.nombre,sum(c.valor_ahorro) FROM Lugares l,Compras c where l.id=c.id_ubicacion group by l.id";
+            try {
+                Cursor c = db.rawQuery(q1, null);
+                GraficaColumna graficaColumna= null;
+                while (c.moveToNext()) {
+                    graficaColumna = new GraficaColumna(
+                            c.getString(0),
+                            c.getDouble(1)
+                    );
+                    array.add(graficaColumna);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            db.close();
+        }
+        return array;
+    }
 
 }

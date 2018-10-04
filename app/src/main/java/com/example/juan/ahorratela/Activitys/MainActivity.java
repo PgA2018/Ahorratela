@@ -15,6 +15,7 @@ import android.widget.Toolbar;
 
 import com.example.juan.ahorratela.DB.AhorratelaDB;
 import com.example.juan.ahorratela.Fragments.ComprasFragment;
+import com.example.juan.ahorratela.Fragments.HistorialesFragment;
 import com.example.juan.ahorratela.Fragments.LugaresFragment;
 import com.example.juan.ahorratela.Fragments.ProductosFragment;
 import com.example.juan.ahorratela.R;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     LugaresFragment lugaresFragment = new LugaresFragment();
     ComprasFragment comprasFragment = new ComprasFragment();
     ProductosFragment productosFragment = new ProductosFragment();
+    HistorialesFragment historialesFragment = new HistorialesFragment();
     android.support.v7.widget.Toolbar toolbar;
     AhorratelaDB ahorratelaDB;
 
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_graficas:
                     fragmentManager = getSupportFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.fragment, lugaresFragment).commit();
+                    fragmentManager.beginTransaction().replace(R.id.fragment, historialesFragment).commit();
                     toolbar.setTitle("Ahorratela - graficos");
                     return true;
             }

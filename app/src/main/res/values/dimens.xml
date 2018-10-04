@@ -6,4 +6,5 @@
     <dimen name="top_margin_layout">30dp</dimen>
     <dimen name="left_right_margin_layout">15dp</dimen>
     <dimen name="left_margin_lbl_form">25dp</dimen>
+    <dimen name="compra">15dp</dimen>
 </resources>

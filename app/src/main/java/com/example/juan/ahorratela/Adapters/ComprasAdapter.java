@@ -29,11 +29,6 @@ public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresV
     AhorratelaDB ahorratelaDB;
     int posMinimo;
     float valorMinimo;
-    float Vmayorg;
-    float Vmenorg;
-    float Gramos;
-    float valorAhorro;
-    //int gramos;
 
     public ComprasAdapter(List<ComprasModel> compraList) {
         this.compraList = compraList;
@@ -59,14 +54,13 @@ public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresV
         holder.idProducto.setText(""+compra.getId_producto());
         holder.idLugar.setText(""+compra.getId_ubicacion());
         holder.nombreProducto.setText(compra.getNombre_producto()+" "+prod.getPresentacion()+ " "+ prod.getMedida() +" " + prod.getUnidad());
-       // holder.valor.setText("$ "+compra.getValor_compra());
 
         if(posMinimo == position){
             holder.icono.setImageResource(R.drawable.ic_happy);
         }else {
             holder.icono.setImageResource(R.drawable.ic_sad);
         }
-        float aux = valorMinimo - compra.getValor_compra()/unidad(prod.getUnidad(),prod.getMedida());
+        float aux = compra.getValor_compra()/unidad(prod.getUnidad(),prod.getMedida())-valorMinimo;
         holder.valor.setText("Ahorro $ "+aux+" x gramo");
         holder.valor_ahorro.setText(""+aux);
         holder.valor_producto.setText(""+compra.getValor_compra());
