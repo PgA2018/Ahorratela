@@ -139,7 +139,6 @@ public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresV
         }
         if (unidad.toString().equalsIgnoreCase("kg")){
             gramos = 1000f*medida;
-
         }
         if (unidad.toString().equalsIgnoreCase("mg")){
             gramos = (float) (0.001*medida);
@@ -149,6 +148,9 @@ public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresV
         }
         if (unidad.toString().equalsIgnoreCase("ml")){
             gramos = medida;
+        }
+        if (unidad.toString().equalsIgnoreCase("lt")){
+            gramos = 1000*medida;
         }
         return gramos;
     }

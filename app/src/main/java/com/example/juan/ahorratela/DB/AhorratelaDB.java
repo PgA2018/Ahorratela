@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.juan.ahorratela.Modelos.ComprasModel;
 import com.example.juan.ahorratela.Modelos.GraficaColumna;
@@ -89,7 +90,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
             sqLiteDatabase.execSQL(CREATE_TABLE_UNIDAD);
             sqLiteDatabase.execSQL(CREATE_TABLE_PRESENTACIONES);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("error 01","error al crear las tablas");
         }
     }
 
@@ -102,7 +103,8 @@ public class AhorratelaDB extends SQLiteOpenHelper{
             sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_UNIDAD);
             sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PRESENTACIONES);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("error 02","error al eliminar las tablas");
+
         }
         onCreate(sqLiteDatabase);
     }
@@ -119,7 +121,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                 db.execSQL(q);
                 ret = true;
             } catch (Exception e) {
-                e.getStackTrace();
+                Log.e("error 3-1","error al crear los lugares");
                 return false;
             }
             db.close();
@@ -147,7 +149,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                     array.add(lugar);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("error 3-2","error en la consulta de lugares");
             }
             db.close();
         }
@@ -173,7 +175,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                     );
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("error 3-3","error al consultar los lugares por id");
             }
             db.close();
         }
@@ -200,7 +202,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                     );
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("error 3-4","error al consultar los lugares por nombre");
             }
             db.close();
         }
@@ -228,7 +230,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                     array.add(lugar);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("error 3-5","error al consultar los lugares por letra inicial");
             }
             db.close();
         }
@@ -256,7 +258,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                     );
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("error 3-6","error al actualizar los lugares por id");
             }
             db.close();
         }
@@ -272,7 +274,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                 String q = "DELETE FROM " + TABLE_LUGARES;
                 db.execSQL(q);
             } catch (Exception e) {
-                e.getStackTrace();
+                Log.e("error 3-7","error al eliminar los lugares");
             }
             db.close();
         }
@@ -289,7 +291,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                 db.execSQL(q);
                 ret = true;
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("error 3-8","error al eliminar los lugares por id");
             }
             db.close();
         }
@@ -308,7 +310,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                 db.execSQL(q);
                 ret = true;
             } catch (Exception e) {
-                e.getStackTrace();
+                Log.e("error 4-1","error al crear los producto");
                 return false;
             }
             db.close();
@@ -338,7 +340,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                     array.add(producto);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("error 4-2","error al consultar los productos");
             }
             db.close();
         }
@@ -366,7 +368,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                     );
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("error 4-3","error al consultar los productos por id");
             }
             db.close();
         }
@@ -392,7 +394,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                     );
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("error 4-4","error al consultar los productos por nombre, unidad y presentacion");
             }
             db.close();
         }
@@ -421,7 +423,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                     );
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("error 4-5","error al consultar los productos por nombre");
             }
             db.close();
         }
@@ -451,7 +453,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                     array.add(producto);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("error 4-6","error al consultar los productos por letra");
             }
             db.close();
         }
@@ -478,7 +480,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                     );
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("error 4-7","error al actualizar los productos");
             }
             db.close();
         }
@@ -494,7 +496,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                 String q = "DELETE FROM " + TABLE_PRODUCTOS;
                 db.execSQL(q);
             } catch (Exception e) {
-                e.getStackTrace();
+                Log.e("error 4-8","error al eliminar los productos");
             }
             db.close();
         }
@@ -509,7 +511,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                 db.execSQL(q);
                 ret = true;
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("error 4-9","error al eliminar los productos por id");
             }
             db.close();
         }
@@ -527,11 +529,10 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                 String q = "INSERT INTO " + TABLE_COMPRAS + " " +
                         "(" + ID_PRODUCTO + ", " + ID_UBICACION + ", " + FECHA + ", " +VALOR_COMPRA + ", " + VALOR_AHORRO + ") " +
                         "" + "VALUES(" + "'" + comprasModel.getId_producto()+ "', " + "'" + comprasModel.getId_ubicacion() + "', '"+ comprasModel.getFecha() +"', '" + comprasModel.getValor_compra() + "', '" + comprasModel.getValor_ahorro() +"')";
-                //String q = "insert into Compras (id_producto, id_hubicacion, valor_compra, valor_ahorro, fecha_compra) values ('"+comprasModel.getId_producto()+"', '"+comprasModel.getId_ubicacion()+"', '"+comprasModel.getValor_compra()+"', '"+comprasModel.getValor_ahorro()+"' )";
                 db.execSQL(q);
                 ret = true;
             } catch (Exception e) {
-                e.getStackTrace();
+                Log.e("error 5-1","error al crear la compra");
                 ret = false;
             }
             db.close();
@@ -561,7 +562,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                     array.add(comprasModel);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("error 5-2","error al consultar las compras");
             }
             db.close();
         }
@@ -589,7 +590,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                     );
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("error 5-3","error al consultar las compras por id");
             }
             db.close();
         }
@@ -620,7 +621,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                     );
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("error 5-4","error al actulizar las compras por id");
             }
             db.close();
         }
@@ -636,7 +637,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                 String q = "DELETE FROM " + TABLE_COMPRAS;
                 db.execSQL(q);
             } catch (Exception e) {
-                e.getStackTrace();
+                Log.e("error 5-5","error al eliminar las compras ");
             }
             db.close();
         }
@@ -653,7 +654,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                 db.execSQL(q);
                 ret = true;
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("error 5-6","error al eliminar las compras por id");
             }
             db.close();
         }
@@ -672,7 +673,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                 db.execSQL(q);
                 ret = true;
             } catch (Exception e) {
-                e.getStackTrace();
+                Log.e("error 6-1","error al crear las unidades");
                 return false;
             }
             db.close();
@@ -699,7 +700,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                     array.add(unidadModel);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("error 6-2","error al consultar las unidades");
             }
             db.close();
         }
@@ -714,7 +715,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                 String q = "DELETE FROM " + TABLE_UNIDAD;
                 db.execSQL(q);
             } catch (Exception e) {
-                e.getStackTrace();
+                Log.e("error 6-3","error al eliminar las unidades");
             }
             db.close();
         }
@@ -731,7 +732,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                 db.execSQL(q);
                 ret = true;
             } catch (Exception e) {
-                e.getStackTrace();
+                Log.e("error 7-1","error al crear la presentacion del producto");
                 return false;
             }
             db.close();
@@ -758,7 +759,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                     array.add(presentaciones);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("error 7-2","error al consultar la presentacion del producto");
             }
             db.close();
         }
@@ -773,7 +774,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                 String q = "DELETE FROM " + TABLE_PRESENTACIONES;
                 db.execSQL(q);
             } catch (Exception e) {
-                e.getStackTrace();
+                Log.e("error 7-3","error al eliminar la presentacion del producto");
             }
             db.close();
         }
@@ -799,7 +800,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                     array.add(graficaPastel);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("error 8-1","error al consultar la cantidad del producto");
             }
             db.close();
         }
@@ -828,7 +829,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                     array.add(graficaLineas);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("error 8-2","error al consultar la compra del producto por fecha");
             }
             db.close();
         }
@@ -852,7 +853,7 @@ public class AhorratelaDB extends SQLiteOpenHelper{
                     array.add(graficaColumna);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("error 8-3","error al consultar las compras por la ubicacion");
             }
             db.close();
         }
