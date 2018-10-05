@@ -18,12 +18,14 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
 import com.example.juan.ahorratela.Adapters.ProductosAdapter;
 import com.example.juan.ahorratela.DB.AhorratelaDB;
 import com.example.juan.ahorratela.Modelos.PresentacionesModel;
 import com.example.juan.ahorratela.Modelos.ProductosModel;
 import com.example.juan.ahorratela.Modelos.UnidadModel;
 import com.example.juan.ahorratela.R;
+import com.example.juan.ahorratela.commons.Validate;
 
 import java.util.ArrayList;
 
@@ -151,43 +153,41 @@ public class ProductosFragment extends Fragment {
 
         //AÑADIENDO DATOS AL SPINNER PRESENTACIONES
         final ArrayList<String> arraySpinnerP = new ArrayList<String>();
-        for (int i = 0; i <presentaciones.size(); i++) {
+        for (int i = 0; i < presentaciones.size(); i++) {
             arraySpinnerP.add(presentaciones.get(i).getNombre());
         }
-        ArrayAdapter<String> adapterP = new ArrayAdapter<String>(dialog.getContext(),android.R.layout.simple_spinner_item,arraySpinnerP);
+        ArrayAdapter<String> adapterP = new ArrayAdapter<String>(dialog.getContext(), android.R.layout.simple_spinner_item, arraySpinnerP);
         adapterP.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerPresentaciones.setAdapter(adapterP);
 
         //AÑADIENDO DATOS AL SPINNER UNIDADES
         final ArrayList<String> arraySpinnerU = new ArrayList<String>();
-        for (int i = 0; i <unidades.size(); i++) {
+        for (int i = 0; i < unidades.size(); i++) {
             arraySpinnerU.add(unidades.get(i).getNombre());
         }
-        ArrayAdapter<String> adapterU = new ArrayAdapter<String>(dialog.getContext(),android.R.layout.simple_spinner_item,arraySpinnerU);
+        ArrayAdapter<String> adapterU = new ArrayAdapter<String>(dialog.getContext(), android.R.layout.simple_spinner_item, arraySpinnerU);
         adapterU.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerUnidades.setAdapter(adapterU);
 
         buttonGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(validarTexto(editTextNombre.getText().toString()) && validarTexto(editTextMedida.getText().toString())){
+                try {
                     boolean bool = ahorratelaDB.createProducto(new ProductosModel(
                             1,
-                            editTextNombre.getText().toString(),
+                            Validate.validarTexto(editTextNombre),
                             spinnerPresentaciones.getSelectedItem().toString(),
                             spinnerUnidades.getSelectedItem().toString(),
-                            Integer.parseInt(editTextMedida.getText().toString()))
-                    );
-                    if(bool){
+                            Validate.validarNumber(editTextMedida)));
+                    if (bool) {
                         productos = ahorratelaDB.getAllProductos();
                         productosAdapter = new ProductosAdapter(productos);
                         recyclerView.setAdapter(productosAdapter);
                         dialog.dismiss();
                     }
-                }else{
-                    Toast.makeText(view.getContext(), "Los campos no pueden estar vacíos", Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(view.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                 }
-                dialog.dismiss();
             }
         });
 
@@ -203,15 +203,15 @@ public class ProductosFragment extends Fragment {
 
     }
 
-    public boolean validarTexto(String texto){
+    public boolean validarTexto(String texto) {
         boolean bool = true;
-        if(texto.isEmpty()){
+        if (texto.isEmpty()) {
             bool = false;
         }
-        if(texto == ""){
+        if (texto == "") {
             bool = false;
         }
-        if(texto == null){
+        if (texto == null) {
             bool = false;
         }
         return bool;

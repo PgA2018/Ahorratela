@@ -240,8 +240,6 @@ public class ComprasFragment extends Fragment implements buttonClickInterface {
                                 Integer.parseInt(editTextPrecio.getText().toString()),
                                 auxProducto.getNombre().toString()
                         ));
-                        auxProducto = null;
-                        auxLugar = null;
                         producto = null;
                         lugar = null;
                         comprasAdapter = new ComprasAdapter(compras);
