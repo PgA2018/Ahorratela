@@ -40,14 +40,27 @@ public class Validate {
      */
     public static String validarTexto(EditText texto) throws Exception {
         String text = texto.getText().toString();
-        if (text.length() < 5) {
-            texto.requestFocus();
-            throw new Exception("los campos deben llevar más de 5 digitos");
+        while(text.indexOf("  ")!=-1){
+            text=text.replace("  ", " ");
         }
+        if (text.length() < 3) {
+            texto.requestFocus();
+            throw new Exception("los campos deben llevar más de 3 digitos");
+        }
+
         if (text.isEmpty() || text.equals(" ")) {
             texto.requestFocus();
             throw new Exception("los campos deben llevar un valor");
         }
         return text;
+    }
+
+    public static int validarNumber(EditText texto) throws Exception {
+        String text = texto.getText().toString();
+        if (text.isEmpty() || text.equals(" ")) {
+            texto.requestFocus();
+            throw new Exception("los campos deben llevar un valor");
+        }
+        return Integer.parseInt(text);
     }
 }

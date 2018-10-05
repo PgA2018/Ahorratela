@@ -15,10 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.example.juan.ahorratela.Adapters.LugaresAdapter;
 import com.example.juan.ahorratela.DB.AhorratelaDB;
 import com.example.juan.ahorratela.Modelos.LugaresModel;
 import com.example.juan.ahorratela.R;
+import com.example.juan.ahorratela.commons.Validate;
 
 import java.util.ArrayList;
 
@@ -139,20 +141,18 @@ public class LugaresFragment extends Fragment {
         buttonGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(validarTexto(editTextNombre.getText().toString()) && validarTexto(editTextUbicacion.getText().toString())){
-                    boolean bool = ahorratelaDB.createLugar(new LugaresModel(
-                            1,
-                            editTextNombre.getText().toString(),
-                            editTextUbicacion.getText().toString())
-                    );
-                    if(bool){
+                try {
+                    boolean bool = ahorratelaDB.createLugar(new LugaresModel(1,
+                            Validate.validarTexto(editTextNombre),
+                            Validate.validarTexto(editTextUbicacion)));
+                    if (bool) {
                         lugares = ahorratelaDB.getAllLugares();
                         lugaresAdapter = new LugaresAdapter(lugares);
                         recyclerView.setAdapter(lugaresAdapter);
                         dialog.dismiss();
                     }
-                }else{
-                    Toast.makeText(view.getContext(), "Los campos no pueden estar vacíos", Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(view.getContext(),e.getMessage(),Toast.LENGTH_LONG).show();
                 }
                 dialog.dismiss();
             }
@@ -168,19 +168,5 @@ public class LugaresFragment extends Fragment {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 
-    }
-
-    public boolean validarTexto(String texto){
-        boolean bool = true;
-        if(texto.isEmpty()){
-            bool = false;
-        }
-        if(texto == ""){
-            bool = false;
-        }
-        if(texto == null){
-            bool = false;
-        }
-        return bool;
     }
 }

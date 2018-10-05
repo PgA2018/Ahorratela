@@ -25,7 +25,7 @@ import java.util.List;
  * Created by juan on 05/12/2017.
  */
 
-public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.ProductosViewHolder> {
+public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.ProductosViewHolder>{
     List<ProductosModel> productosModels;
     Context context;
     AhorratelaDB productosDB;
@@ -47,7 +47,7 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
         ProductosModel productos = productosModels.get(position);
         holder.id.setText(productos.getId().toString());
         holder.nombre.setText(productos.getNombre());
-        holder.descripcion.setText(productos.getPresentacion() + " " + productos.getMedida() + " " + productos.getUnidad());
+        holder.descripcion.setText(productos.getPresentacion()+" "+productos.getMedida()+" "+productos.getUnidad());
     }
 
     @Override
@@ -55,7 +55,7 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
         return productosModels.size();
     }
 
-    public class ProductosViewHolder extends RecyclerView.ViewHolder {
+    public class ProductosViewHolder extends RecyclerView.ViewHolder{
         TextView id;
         TextView nombre;
         TextView descripcion;
@@ -91,9 +91,9 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
                         public void onClick(View view) {
                             productosDB = new AhorratelaDB(itemView.getContext());
                             boolean delete = productosDB.deleteProducto(id.getText().toString());
-                            if (delete) {
-                                for (int i = 0; i < productosModels.size(); i++) {
-                                    if (productosModels.get(i).getId().toString() == id.getText().toString()) {
+                            if (delete){
+                                for (int i = 0; i< productosModels.size(); i++){
+                                    if(productosModels.get(i).getId().toString() == id.getText().toString()){
                                         productosModels.remove(i);
                                         notifyItemRemoved(i);
                                     }
@@ -134,21 +134,24 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
                             editarLugarAceptar.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-
-                                    productosDB = new AhorratelaDB(itemView.getContext());
                                     try {
-                                        ProductosModel update = productosDB.updateProducto(id.getText().toString(), Validate.validarTexto(editTextNombre));
-                                        if (update != null) {
+                                        productosDB = new AhorratelaDB(itemView.getContext());
+                                        ProductosModel update = productosDB.updateProducto(id.getText().toString(),
+                                                Validate.validarTexto(editTextNombre));
+                                        if(update != null){
                                             for (int i = 0; i < productosModels.size(); i++) {
                                                 if (productosModels.get(i).getId().toString() == update.getId().toString()) {
+                                                    update.setPresentacion(productosModels.get(i).getPresentacion());
+                                                    update.setUnidad(productosModels.get(i).getPresentacion());
+                                                    update.setMedida(productosModels.get(i).getMedida());
                                                     productosModels.set(i, update);
                                                     notifyItemChanged(i);
                                                 }
                                             }
+                                            dialogEdit.dismiss();
                                         }
-                                        dialogEdit.dismiss();
-                                    } catch (Exception e) {
-                                        Toast.makeText(itemView.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                    }catch (Exception e){
+                                        Toast.makeText(itemView.getContext(),e.getMessage(),Toast.LENGTH_LONG);
                                     }
                                 }
                             });
@@ -179,15 +182,15 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
         }
     }
 
-    public boolean validarTexto(String texto) {
+    public boolean validarTexto(String texto){
         boolean bool = true;
-        if (texto.isEmpty()) {
+        if(texto.isEmpty()){
             bool = false;
         }
-        if (texto == "") {
+        if(texto == ""){
             bool = false;
         }
-        if (texto == null) {
+        if(texto == null){
             bool = false;
         }
         return bool;

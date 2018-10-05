@@ -240,8 +240,6 @@ public class ComprasFragment extends Fragment implements buttonClickInterface {
                                 Integer.parseInt(editTextPrecio.getText().toString()),
                                 auxProducto.getNombre().toString()
                         ));
-                        auxProducto = null;
-                        auxLugar = null;
                         producto = null;
                         lugar = null;
                         comprasAdapter = new ComprasAdapter(compras);
@@ -264,17 +262,5 @@ public class ComprasFragment extends Fragment implements buttonClickInterface {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
-    public boolean validarTexto(String texto){
-        boolean bool = true;
-        if(texto.isEmpty()){
-            bool = false;
-        }
-        if(texto == ""){
-            bool = false;
-        }
-        if(texto == null){
-            bool = false;
-        }
-        return bool;
-    }
+
 }

@@ -145,8 +145,10 @@ public class LugaresAdapter extends RecyclerView.Adapter<LugaresAdapter.LugaresV
                                         if (update != null) {
                                             for (int i = 0; i < lugaresList.size(); i++) {
                                                 if (lugaresList.get(i).getId().toString() == update.getId().toString()) {
+
+
                                                     lugaresList.set(i, update);
-                                                    notifyItemChanged(i);
+                                                    notifyDataSetChanged();
                                                 }
                                             }
                                         }
