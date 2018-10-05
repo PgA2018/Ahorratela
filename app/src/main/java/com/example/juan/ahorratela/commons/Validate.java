@@ -1,5 +1,6 @@
 package com.example.juan.ahorratela.commons;
 
+import android.icu.text.StringPrepParseException;
 import android.widget.EditText;
 
 /**
@@ -8,7 +9,7 @@ import android.widget.EditText;
  */
 
 public class Validate {
-    final double VERSION=1.0;
+    final String VERSION="1.0.1";
 
     /**
      * valida que lo textos estén vacíos

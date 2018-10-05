@@ -253,5 +253,4 @@ public class ComprasFragment extends Fragment implements buttonClickInterface {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
-
 }

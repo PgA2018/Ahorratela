@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.icu.text.StringPrepParseException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -115,7 +116,7 @@ public class LugaresFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public void ShowPopup(View v) {
+    public void ShowPopup(final View v) {
         final EditText editTextNombre;
         final EditText editTextUbicacion;
         FloatingActionButton buttonGuardar;
@@ -132,9 +133,11 @@ public class LugaresFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    boolean bool = ahorratelaDB.createLugar(new LugaresModel(1,
+                    boolean bool = ahorratelaDB.createLugar(new LugaresModel(
+                            1,
                             Validate.validarTexto(editTextNombre),
-                            Validate.validarTexto(editTextUbicacion)));
+                            Validate.validarTexto(editTextUbicacion))
+                    );
                     if (bool) {
                         lugares = ahorratelaDB.getAllLugares();
                         lugaresAdapter = new LugaresAdapter(lugares);
@@ -142,9 +145,8 @@ public class LugaresFragment extends Fragment {
                         dialog.dismiss();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(view.getContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(view.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                 }
-                dialog.dismiss();
             }
         });
 

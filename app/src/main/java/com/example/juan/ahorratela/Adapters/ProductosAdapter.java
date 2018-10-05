@@ -181,18 +181,4 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
             });
         }
     }
-
-    public boolean validarTexto(String texto){
-        boolean bool = true;
-        if(texto.isEmpty()){
-            bool = false;
-        }
-        if(texto == ""){
-            bool = false;
-        }
-        if(texto == null){
-            bool = false;
-        }
-        return bool;
-    }
 }
