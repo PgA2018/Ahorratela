@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.juan.ahorratela.DB.AhorratelaDB;
 import com.example.juan.ahorratela.Modelos.LugaresModel;
 import com.example.juan.ahorratela.R;
+import com.example.juan.ahorratela.commons.Validate;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ import java.util.List;
  * Created by juan on 05/12/2017.
  */
 
-public class LugaresAdapter extends RecyclerView.Adapter<LugaresAdapter.LugaresViewHolder>{
+public class LugaresAdapter extends RecyclerView.Adapter<LugaresAdapter.LugaresViewHolder> {
     List<LugaresModel> lugaresList;
     Context context;
     AhorratelaDB ahorratelaDB;
@@ -54,7 +55,7 @@ public class LugaresAdapter extends RecyclerView.Adapter<LugaresAdapter.LugaresV
         return lugaresList.size();
     }
 
-    public class LugaresViewHolder extends RecyclerView.ViewHolder{
+    public class LugaresViewHolder extends RecyclerView.ViewHolder {
         TextView id;
         TextView nombre;
         TextView ubicacion;
@@ -91,9 +92,9 @@ public class LugaresAdapter extends RecyclerView.Adapter<LugaresAdapter.LugaresV
                         public void onClick(View view) {
                             ahorratelaDB = new AhorratelaDB(itemView.getContext());
                             boolean delete = ahorratelaDB.deleteLugar(id.getText().toString());
-                            if (delete){
-                                for (int i=0; i<lugaresList.size();i++){
-                                    if(lugaresList.get(i).getId().toString() == id.getText().toString()){
+                            if (delete) {
+                                for (int i = 0; i < lugaresList.size(); i++) {
+                                    if (lugaresList.get(i).getId().toString() == id.getText().toString()) {
                                         lugaresList.remove(i);
                                         notifyItemRemoved(i);
                                     }
@@ -136,21 +137,23 @@ public class LugaresAdapter extends RecyclerView.Adapter<LugaresAdapter.LugaresV
                             editarLugarAceptar.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    if(validarTexto(editTextNombre.getText().toString()) && validarTexto(editTextLugar.getText().toString())){
-                                        ahorratelaDB = new AhorratelaDB(itemView.getContext());
-                                        LugaresModel update = ahorratelaDB.updateLugar(id.getText().toString(), editTextNombre.getText().toString(), editTextLugar.getText().toString());
-                                        if(update != null){
-                                            for (int i=0; i<lugaresList.size();i++){
-                                                if(lugaresList.get(i).getId().toString() == update.getId().toString()){
+                                    try {
+                                        AhorratelaDB ahorratelaDB = new AhorratelaDB(itemView.getContext());
+                                        LugaresModel update = ahorratelaDB.updateLugar(id.getText().toString(),
+                                                Validate.validarTexto(editTextNombre),
+                                                Validate.validarTexto(editTextLugar));
+                                        if (update != null) {
+                                            for (int i = 0; i < lugaresList.size(); i++) {
+                                                if (lugaresList.get(i).getId().toString() == update.getId().toString()) {
                                                     lugaresList.set(i, update);
                                                     notifyItemChanged(i);
                                                 }
                                             }
                                         }
-                                    }else{
-                                        Toast.makeText(view.getContext(), "Los campos no pueden estar vacíos", Toast.LENGTH_SHORT).show();
+                                        dialogEdit.dismiss();
+                                    } catch (Exception e) {
+                                        Toast.makeText(view.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                                     }
-                                    dialogEdit.dismiss();
                                 }
                             });
 
@@ -178,19 +181,5 @@ public class LugaresAdapter extends RecyclerView.Adapter<LugaresAdapter.LugaresV
                 }
             });
         }
-    }
-
-    public boolean validarTexto(String texto){
-        boolean bool = true;
-        if(texto.isEmpty()){
-            bool = false;
-        }
-        if(texto == ""){
-            bool = false;
-        }
-        if(texto == null){
-            bool = false;
-        }
-        return bool;
     }
 }

@@ -135,10 +135,10 @@ public class ComprasAdapter extends RecyclerView.Adapter<ComprasAdapter.LugaresV
     private float unidad(String unidad, int medida){
         float gramos = 0;
         if (unidad.toString().equalsIgnoreCase("lb")){
-            gramos = 450*medida;
+            gramos = 450f*medida;
         }
         if (unidad.toString().equalsIgnoreCase("kg")){
-            gramos = 1000*medida;
+            gramos = 1000f*medida;
 
         }
         if (unidad.toString().equalsIgnoreCase("mg")){
