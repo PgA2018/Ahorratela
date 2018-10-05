@@ -264,17 +264,4 @@ public class ComprasFragment extends Fragment implements buttonClickInterface {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
-    public boolean validarTexto(String texto){
-        boolean bool = true;
-        if(texto.isEmpty()){
-            bool = false;
-        }
-        if(texto == ""){
-            bool = false;
-        }
-        if(texto == null){
-            bool = false;
-        }
-        return bool;
-    }
 }
