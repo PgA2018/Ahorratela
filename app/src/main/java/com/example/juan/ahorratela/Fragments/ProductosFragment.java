@@ -42,22 +42,17 @@ public class ProductosFragment extends Fragment {
     Dialog dialog;
     AhorratelaDB ahorratelaDB;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
     public ProductosFragment() {
-        // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
     public static ProductosFragment newInstance(String param1, String param2) {
         ProductosFragment fragment = new ProductosFragment();
         Bundle args = new Bundle();
@@ -106,7 +101,6 @@ public class ProductosFragment extends Fragment {
         return v;
     }
 
-    // TODO: Rename method, updateLugar argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -116,12 +110,7 @@ public class ProductosFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        /*if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }*/
+
     }
 
     @Override
@@ -131,7 +120,6 @@ public class ProductosFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
@@ -201,19 +189,5 @@ public class ProductosFragment extends Fragment {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 
-    }
-
-    public boolean validarTexto(String texto) {
-        boolean bool = true;
-        if (texto.isEmpty()) {
-            bool = false;
-        }
-        if (texto == "") {
-            bool = false;
-        }
-        if (texto == null) {
-            bool = false;
-        }
-        return bool;
     }
 }

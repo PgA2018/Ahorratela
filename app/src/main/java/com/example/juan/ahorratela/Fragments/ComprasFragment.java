@@ -72,7 +72,6 @@ public class ComprasFragment extends Fragment implements buttonClickInterface {
     private String mParam2;
 
     public ComprasFragment() {
-        // Required empty public constructor
     }
 
     public static ComprasFragment newInstance(String param1, String param2) {
@@ -130,12 +129,7 @@ public class ComprasFragment extends Fragment implements buttonClickInterface {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        /*if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }*/
+
     }
 
     @Override
@@ -164,13 +158,10 @@ public class ComprasFragment extends Fragment implements buttonClickInterface {
 
     @Override
     public void compra(ComprasModel compra) {
-        /*compras.add(compra);
-        comprasAdapter = new ComprasAdapter(compras);
-        compras_list.setAdapter(comprasAdapter);*/
+
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 

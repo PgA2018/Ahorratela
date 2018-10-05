@@ -43,13 +43,9 @@ import lecho.lib.hellocharts.view.PieChartView;
  */
 public class HistorialesFragment extends Fragment {
 
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -71,7 +67,6 @@ public class HistorialesFragment extends Fragment {
     private ChartAdapter adapter;
 
     public HistorialesFragment() {
-        // Required empty public constructor
     }
 
     /**
@@ -119,7 +114,6 @@ public class HistorialesFragment extends Fragment {
 
         adapter = new ChartAdapter(context, 0, crearGraficas());
         listView.setAdapter(adapter);
-        //listView.setOnItemClickListener(this);
 
         return v;
     }
@@ -131,8 +125,6 @@ public class HistorialesFragment extends Fragment {
         lt.add(new Graficos("Grafico Redtas compra vs ahorro",1, context,graficaLineas));
         lt.add(new Graficos(context,2,"Grafico Pastel ahorro",graficaPastels));
         lt.add(new Graficos(context,"Grafico Barras perdidas por lugar",graficaColumnas,3));
-        /*lt.add(new Graficos("Grafico 4",4,  context,graficaLineas));
-        lt.add(new Graficos("Grafico 5",5, context,graficaLineas));*/
 
         return lt;
     }
